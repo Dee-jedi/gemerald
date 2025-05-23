@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="relative w-full">
+    <nav className="relative w-full" role="navigation">
       {/* Desktop Links - centered */}
       <div className="hidden md:flex justify-center space-x-6">
         {links.map((link) => (

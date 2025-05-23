@@ -25,10 +25,13 @@ const Header = () => {
 
   return (
     <header
-      className={`bg-[var(--color-bg)] shadow-md sticky top-0 z-50 transition-opacity duration-500 ${
+      className={`bg-[var(--color-bg)] sticky top-0 z-50 transition-opacity duration-300 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
+      {/* Border element */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-soft-amber)] to-transparent opacity-10"></div>
+
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 relative">
         {/* Logo - left aligned */}
         <img

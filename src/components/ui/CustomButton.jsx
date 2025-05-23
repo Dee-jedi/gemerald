@@ -63,11 +63,12 @@ const Button = ({
       onClick={onClick}
       disabled={disabled || loading}
       className={cn(
-        "transition duration-300 ease-in-out font-medium flex items-center justify-center cursor-pointer",
+        "transition duration-300 ease-in-out font-medium flex items-center justify-center",
         variants[variant],
         sizes[size],
         fullWidth && "w-full",
         disabled && "opacity-50 cursor-not-allowed",
+        !disabled && "cursor-pointer", // Only add cursor-pointer when not disabled
         className
       )}
       {...props}
@@ -78,7 +79,10 @@ const Button = ({
         children
       )}
 
-      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+      {/* Only show the gradient overlay on hover */}
+      {!disabled && (
+        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></span>
+      )}
     </button>
   );
 };

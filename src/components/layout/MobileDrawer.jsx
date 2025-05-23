@@ -1,10 +1,7 @@
 // src/components/layout/MobileDrawer.jsx
 import { NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Button from "../ui/CustomButton"; // 👈 Import your custom button
-
-const navLinkClass =
-  "block px-4 py-2 text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors duration-300 text-lg";
+import Button from "../ui/CustomButton"; // Custom button component
 
 const drawerVariants = {
   hidden: { opacity: 0, y: -10 },
@@ -23,7 +20,7 @@ const MobileDrawer = ({ isOpen, setIsOpen, links }) => {
           exit="exit"
           variants={drawerVariants}
           transition={{ duration: 0.3 }}
-          className="absolute right-0 mt-6 w-64 rounded-xl bg-[var(--color-card)] shadow-2xl md:hidden z-50 p-4 border border-white/10 backdrop-blur-lg"
+          className="absolute right-0 mt-6 w-64 rounded-xl bg-[var(--color-card)] shadow-2xl md:hidden z-[9999] p-4 border border-white/10 backdrop-blur-lg"
         >
           {/* Navigation Links */}
           <div className="space-y-2 mb-4">
@@ -33,7 +30,7 @@ const MobileDrawer = ({ isOpen, setIsOpen, links }) => {
                 to={link.to}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
-                  `block px-4 py-3 rounded-lg transition-all duration-300 ${
+                  `group block px-4 py-3 rounded-lg transition-all duration-300 ${
                     isActive
                       ? "bg-white/5 text-[var(--color-wood)] font-medium"
                       : "text-[var(--color-text)] hover:bg-white/5"

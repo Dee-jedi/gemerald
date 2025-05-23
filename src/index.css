@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&display=swap');
+
 @import "tailwindcss";
 
 @layer base {
@@ -9,25 +12,31 @@
     --color-wood: #deb887;
     --color-text: #f5f5f5;
     --transition-duration: 300ms;
-     --color-border: rgba(255, 255, 255, 0.08);
+    --color-border: rgba(255, 255, 255, 0.08);
     --color-glass: rgba(15, 15, 15, 0.75);
   }
 
   body {
     background-color: var(--color-bg);
     color: var(--color-text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Default body font */
+  }
+
+  /* Custom font classes */
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+  .font-italic {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .font-script {
+    font-family: 'Great Vibes', cursive;
   }
 
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
-    }}
-
-     @font-face {
-    font-family: 'serif';
-    font-style: italic;
-    font-weight: 400;
-    src: local('Times New Roman Italic'), local('TimesNewRomanPS-ItalicMT');
+    }
   }
 }
