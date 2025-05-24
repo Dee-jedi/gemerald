@@ -1,67 +1,67 @@
 // src/components/products/ProductCard.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "../ui/CustomButton";
 import { Eye } from "lucide-react";
 
 export const ProductCard = ({ product }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [cardSize, setCardSize] = useState(30);
 
-  // Generate random heights for masonry effect
-  const getRandomHeight = () => {
-    const heights = [200, 250, 280, 320, 240, 300];
-    return heights[Math.floor(Math.random() * heights.length)];
-  };
-
-  const [imageHeight] = useState(getRandomHeight());
+  useEffect(() => {
+    // Calculate card size based on content
+    const baseSize = 30;
+    const nameLength = product.name.length;
+    const size = nameLength > 30 ? baseSize + 5 : baseSize;
+    setCardSize(size);
+  }, [product.name]);
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl bg-[var(--color-card)] border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md mb-4">
-      {/* Image with random height */}
-      <div className="relative overflow-hidden">
+    <div
+      className="product-card group relative overflow-hidden rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md"
+      style={{ "--card-size": cardSize }}
+    >
+      {/* Image */}
+      <div className="aspect-[3/4] overflow-hidden relative">
         {!isImageLoaded && (
-          <div
-            className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-2xl"
-            style={{ height: `${imageHeight}px` }}
-          ></div>
+          <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-xl"></div>
         )}
         <img
           src={product.image}
           alt={product.name}
-          className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
             isImageLoaded ? "opacity-100" : "opacity-0"
           }`}
           loading="lazy"
           onLoad={() => setIsImageLoaded(true)}
-          style={{ height: `${imageHeight}px` }}
         />
       </div>
 
       {/* Info */}
-      <div className="p-3">
+      <div className="p-3 space-y-1.5">
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">
-            <h3 className="font-serif text-sm md:text-base truncate">
+            <h3 className="font-medium text-sm text-[var(--color-text)] line-clamp-2 leading-tight">
               {product.name}
             </h3>
-            <p className="text-[var(--color-soft-amber)] text-xs md:text-sm mt-0.5">
+            <p className="text-xs text-[var(--color-soft-amber)] mt-0.5">
               {product.category}
             </p>
           </div>
-          <span className="font-medium text-sm md:text-base whitespace-nowrap">
+          <span className="font-medium text-sm whitespace-nowrap">
             ${product.price}
           </span>
         </div>
 
-        <Link to={`/products/${product.id}`} className="block mt-2 w-full">
+        <Link to={`/products/${product.id}`} className="block pt-1.5">
           <Button
             variant="outline"
             size="sm"
             fullWidth
-            className="gap-1.5 py-1.5"
+            className="gap-1.5 py-1.5 text-xs"
           >
-            <Eye className="w-3 h-3 md:w-4 md:h-4 text-[var(--color-wood)]" />
-            <span className="text-xs md:text-sm">View Details</span>
+            <Eye className="w-3 h-3 text-[var(--color-wood)]" />
+            View Details
           </Button>
         </Link>
       </div>
