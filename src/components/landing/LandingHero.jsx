@@ -66,7 +66,7 @@ export const LandingHero = ({ onExplore }) => {
               }}
             >
               <div className="uppercase tracking-[0.2em] text-[var(--color-wood)] font-script">
-                <p className="opacity-30">Gemerald Essence</p>
+                <p>Gemerald Essence</p>
               </div>
             </ScrollAnimatedItem>
 
