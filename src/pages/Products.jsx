@@ -31,10 +31,10 @@ const Products = () => {
   }, [filter, searchQuery]);
 
   return (
-    <AnimatedPage className="py-6 md:py-10">
+    <AnimatedPage className="py-5 md:py-10">
       <div className="max-w-7xl mx-auto px-6">
         {/* Search Bar */}
-        <ScrollAnimatedItem amount={0.05} className="mb-6 md:mb-8">
+        <ScrollAnimatedItem amount={0.05} className="mb-4 md:mb-8">
           <div className="relative max-w-2xl mx-auto">
             <input
               type="text"
@@ -68,8 +68,8 @@ const Products = () => {
         </ScrollAnimatedItem>
 
         {/* Filters */}
-        <ScrollAnimatedItem amount={0.1} className="mb-8 md:mb-12">
-          <div className="flex flex-wrap gap-4 pb-6 relative">
+        <ScrollAnimatedItem amount={0.1} className="mb-6 md:mb-12">
+          <div className="flex flex-wrap gap-4 pb-3 sm:pb-6 relative">
             {["all", "perfume", "candle", "gift set"].map((cat) => (
               <button
                 key={cat}
