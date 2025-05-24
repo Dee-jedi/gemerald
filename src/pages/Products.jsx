@@ -1,26 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
-import { ProductCard } from "../components/products/ProductCard";
 import { allProducts } from "../data/products";
 import MasonryGrid from "../components/products/MasonryGrid";
 
 const Products = () => {
   const [filter, setFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [displayedProducts, setDisplayedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredProducts =
-    filter === "all"
-      ? allProducts
-      : allProducts.filter((p) => p.category.toLowerCase() === filter);
+  const filterAndSearch = () => {
+    const filtered =
+      filter === "all"
+        ? allProducts
+        : allProducts.filter((p) => p.category.toLowerCase() === filter);
 
-  const searchedProducts = filteredProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    return filtered.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timeout = setTimeout(() => {
+      setDisplayedProducts(filterAndSearch());
+      setIsLoading(false);
+    }, 800); // simulate load delay
+
+    return () => clearTimeout(timeout);
+  }, [filter, searchQuery]);
 
   return (
-    <AnimatedPage className="py-8 md:py-10">
+    <AnimatedPage className="py-6 md:py-10">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Search Bar - Keep as is */}
+        {/* Search Bar */}
         <ScrollAnimatedItem amount={0.05} className="mb-6 md:mb-8">
           <div className="relative max-w-2xl mx-auto">
             <input
@@ -28,13 +41,19 @@ const Products = () => {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-6 py-3 font-serif text-[var(--color-text)] bg-[var(--color-card)] 
-            border border-[var(--color-border)] rounded-full focus:outline-none focus:ring-1 
-            focus:ring-[var(--color-wood)] focus:border-transparent placeholder:text-[color-mix(in_srgb,var(--color-wood),transparent_50%)] 
-            transition-all duration-200 backdrop-blur-sm"
+              className="w-full px-6 py-3 font-serif text-[var(--color-text)] 
+            bg-[color-mix(in_srgb,var(--color-card),black_10%)] 
+            border border-[color-mix(in_srgb,var(--color-border),transparent_30%)]
+            rounded-full focus:outline-none 
+            focus:ring-1 focus:ring-[color-mix(in_srgb,var(--color-wood),white_20%)] 
+            focus:border-transparent 
+            placeholder:text-[color-mix(in_srgb,var(--color-wood),transparent_60%)]
+            transition-all duration-300 
+            shadow-sm shadow-black/20
+            hover:border-[color-mix(in_srgb,var(--color-border),white_10%)]"
             />
             <svg
-              className="absolute right-5 top-3.5 h-5 w-5 text-[var(--color-soft-amber)]"
+              className="absolute right-5 top-3.5 h-5 w-5 text-[var(--color-wood)] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -48,7 +67,7 @@ const Products = () => {
           </div>
         </ScrollAnimatedItem>
 
-        {/* Filters - Keep as is */}
+        {/* Filters */}
         <ScrollAnimatedItem amount={0.1} className="mb-8 md:mb-12">
           <div className="flex flex-wrap gap-4 pb-6 relative">
             {["all", "perfume", "candle", "gift set"].map((cat) => (
@@ -58,7 +77,7 @@ const Products = () => {
                 className={`px-4 py-2 capitalize font-serif text-sm cursor-pointer transition-colors relative ${
                   filter === cat
                     ? "text-[var(--color-wood)]"
-                    : "text-gray-400 hover:text-[var(--color-wood)] transition-colors duration-200"
+                    : "text-gray-400 hover:text-[var(--color-wood)]"
                 }`}
               >
                 {cat}
@@ -71,10 +90,10 @@ const Products = () => {
           </div>
         </ScrollAnimatedItem>
 
-        {/* Simple Masonry Products Grid */}
+        {/* Grid or Fallback */}
         <div>
-          {searchedProducts.length > 0 ? (
-            <MasonryGrid products={searchedProducts} />
+          {displayedProducts.length > 0 || isLoading ? (
+            <MasonryGrid products={displayedProducts} loading={isLoading} />
           ) : (
             <div className="text-center py-12">
               <h3 className="font-serif text-xl text-[var(--color-wood)] mb-2">

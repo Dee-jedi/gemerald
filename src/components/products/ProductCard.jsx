@@ -2,72 +2,107 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "../ui/CustomButton";
-import { Eye } from "lucide-react";
+import { Eye, Star } from "lucide-react";
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, fixedHeight = false }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [cardSize, setCardSize] = useState(30);
+  const [cardHeight, setCardHeight] = useState("auto");
 
   useEffect(() => {
-    // Calculate card size based on content
-    const baseSize = 30;
-    const nameLength = product.name.length;
-    const size = nameLength > 30 ? baseSize + 5 : baseSize;
-    setCardSize(size);
-  }, [product.name]);
+    if (!fixedHeight) {
+      // Height variations for mobile masonry
+      const heights = ["280px", "220px", "240px", "200px", "260px"];
+      setCardHeight(heights[Math.floor(Math.random() * heights.length)]);
+    }
+  }, [fixedHeight]);
 
   return (
     <div
-      className="product-card group relative overflow-hidden rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md"
-      style={{ "--card-size": cardSize }}
+      className={`group relative overflow-hidden rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md ${
+        fixedHeight ? "h-full" : ""
+      }`}
+      style={!fixedHeight ? { height: cardHeight } : {}}
     >
-      {/* Image */}
-      <div className="overflow-hidden relative rounded-t-xl max-h-[280px] sm:max-h-[320px] md:max-h-[360px] lg:max-h-[400px] xl:max-h-[440px]">
+      {/* Image container */}
+      <div className={`relative ${fixedHeight ? "aspect-square" : "h-full"}`}>
         {!isImageLoaded && (
           <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-t-xl" />
         )}
-        <img
-          src={product.image}
-          alt={product.name}
-          className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
-            isImageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          loading="lazy"
-          onLoad={() => setIsImageLoaded(true)}
-          style={{
-            maxHeight: "100%", // fallback
-          }}
-        />
-      </div>
-
-      {/* Info */}
-      <div className="p-3 space-y-1.5">
-        <div className="flex justify-between items-start gap-2">
-          <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-sm text-[var(--color-text)] line-clamp-2 leading-tight">
-              {product.name}
-            </h3>
-            <p className="text-xs text-[var(--color-soft-amber)] mt-0.5">
-              {product.category}
-            </p>
-          </div>
-          <span className="font-medium text-sm whitespace-nowrap">
-            ${product.price}
-          </span>
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+              isImageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            loading="lazy"
+            onLoad={() => setIsImageLoaded(true)}
+          />
         </div>
-
-        <Link to={`/products/${product.id}`} className="block pt-1.5">
-          <Button
-            variant="outline"
-            size="sm"
-            fullWidth
-            className="gap-1.5 py-1.5 text-xs"
-          >
-            <Eye className="w-3 h-3 text-[var(--color-wood)]" />
-            View Details
-          </Button>
-        </Link>
       </div>
+
+      {/* Info section - different layout for mobile/desktop */}
+      {fixedHeight ? (
+        // Desktop layout - below image
+        <div className="p-3 space-y-1.5 bg-[var(--color-card)]">
+          <div className="flex justify-between items-center gap-2">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-medium text-sm text-[var(--color-text)] line-clamp-1 leading-tight">
+                {product.name}
+              </h3>
+              <p className="text-xs font-semibold text-[var(--color-soft-amber)]">
+                #{product.price}
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-xs font-semibold text-[var(--color-wood)] whitespace-nowrap">
+              <Star className="w-3 h-3 text-yellow-500" />
+              {product.rating?.toFixed(1) ?? "4.0"}
+            </div>
+          </div>
+          <Link to={`/products/${product.id}`} className="block pt-1">
+            <Button
+              variant="outline"
+              size="lg"
+              fullWidth
+              className="gap-1.5 text-xs py-1"
+            >
+              <Eye className="w-3 h-3 text-[var(--color-wood)]" />
+              View Details
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        // Mobile layout - overlay on image
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3 pt-6">
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center gap-2">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-medium text-sm text-white line-clamp-1 leading-tight">
+                  {product.name}
+                </h3>
+                <p className="text-xs font-semibold text-[var(--color-soft-amber)]">
+                  #{product.price}
+                </p>
+              </div>
+              <div className="flex items-center gap-1 text-xs font-semibold text-white whitespace-nowrap">
+                <Star className="w-3 h-3 text-yellow-300" />
+                {product.rating?.toFixed(1) ?? "4.0"}
+              </div>
+            </div>
+            <Link to={`/products/${product.id}`} className="block pt-1">
+              <Button
+                variant="outline"
+                size="sm"
+                fullWidth
+                className="gap-1.5 text-xs py-[7px] bg-black/40 sm:bg-white/90 sm:hover:bg-white"
+              >
+                <Eye className="w-3 h-3 text-[var(--color-wood)]" />
+                View Details
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

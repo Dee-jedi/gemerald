@@ -19,11 +19,11 @@ const variants = {
     hover:bg-[var(--color-bg)]
   `,
   outline: `
-    bg-transparent
-    text-[var(--color-text)]
-    border border-[var(--color-text)]
-    hover:bg-[var(--color-card)]
-  `,
+  bg-transparent
+  text-[var(--color-text)]
+  border border-[color:rgba(255,255,255,0.2)] dark:border-[color:rgba(255,255,255,0.12)]
+  hover:bg-[var(--color-card)]
+`,
   glass: `
     bg-white/10 
     backdrop-blur-md 
