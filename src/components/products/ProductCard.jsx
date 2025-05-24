@@ -74,7 +74,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
       ) : (
         // Mobile layout - overlay on image
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3 pt-6">
-          <div className="sm:space-y-1.5 space-y-0">
+          <div className="space-y-1.5">
             <div className="flex justify-between items-center gap-2">
               <div className="flex-1 min-w-0">
                 <h3 className="font-medium text-sm text-white line-clamp-1 leading-tight">

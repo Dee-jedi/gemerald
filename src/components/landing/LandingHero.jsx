@@ -1,23 +1,27 @@
 import { useRef } from "react";
 import Button from "../ui/CustomButton";
 import productImage from "../../assets/images/product_9.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatedPage, ScrollAnimatedItem } from "../../utils/pageAnimations";
 
 export const LandingHero = ({ onExplore }) => {
   const heroRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleExploreClick = (e) => {
-    if (onExplore) {
-      e.preventDefault();
-      if (heroRef.current) {
-        window.scrollTo({
-          top: heroRef.current.offsetHeight,
-          behavior: "smooth",
-        });
-        setTimeout(() => onExplore(), 1000);
-      }
+    e.preventDefault();
+
+    // Scroll effect if onExplore is provided
+    if (onExplore && heroRef.current) {
+      window.scrollTo({
+        top: heroRef.current.offsetHeight,
+        behavior: "smooth",
+      });
+      setTimeout(() => onExplore(), 1000);
     }
+
+    // Always navigate to products
+    navigate("/products");
   };
 
   return (
@@ -137,15 +141,16 @@ export const LandingHero = ({ onExplore }) => {
               }}
             >
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link
-                  to="/products"
-                  onClick={handleExploreClick}
-                  className="inline-block" // Ensures proper button sizing
-                >
-                  <Button size="lg" className="px-6">
+                {/* Use inline-block to maintain button width while fixing navigation */}
+                <div className="inline-block">
+                  <Button
+                    size="lg"
+                    className="px-6"
+                    onClick={handleExploreClick}
+                  >
                     <span className="py-1">Discover Collections</span>
                   </Button>
-                </Link>
+                </div>
               </div>
             </ScrollAnimatedItem>
           </div>
