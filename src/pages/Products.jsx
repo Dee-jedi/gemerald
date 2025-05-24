@@ -42,7 +42,7 @@ const Products = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-6 py-3 font-serif text-[var(--color-text)] 
-            bg-[color-mix(in_srgb,var(--color-card),black_10%)] 
+            bg-[color-mix(in_srgb,var(--color-card),black_38%)] 
             border border-[color-mix(in_srgb,var(--color-border),transparent_30%)]
             rounded-full focus:outline-none 
             focus:ring-1 focus:ring-[color-mix(in_srgb,var(--color-wood),white_20%)] 
