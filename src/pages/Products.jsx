@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
 import { ProductCard } from "../components/products/ProductCard";
 import { allProducts } from "../data/products";
+import MasonryGrid from "../components/products/MasonryGrid";
 
 const Products = () => {
   const [filter, setFilter] = useState("all");
@@ -71,24 +72,9 @@ const Products = () => {
         </ScrollAnimatedItem>
 
         {/* Simple Masonry Products Grid */}
-        <div className="masonry-grid">
+        <div>
           {searchedProducts.length > 0 ? (
-            searchedProducts.map((product, index) => (
-              <ScrollAnimatedItem
-                key={product.id}
-                amount={0.1}
-                variants={{
-                  offscreen: { y: 40, opacity: 0 },
-                  onscreen: {
-                    y: 0,
-                    opacity: 1,
-                    transition: { delay: Math.floor(index / 5) * 0.1 },
-                  },
-                }}
-              >
-                <ProductCard product={product} />
-              </ScrollAnimatedItem>
-            ))
+            <MasonryGrid products={searchedProducts} />
           ) : (
             <div className="text-center py-12">
               <h3 className="font-serif text-xl text-[var(--color-wood)] mb-2">

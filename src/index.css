@@ -43,46 +43,21 @@
     font-family: 'Great Vibes', cursive;
   }
 
-  /* Remove the old masonry-grid styles and replace with this */
+  /* Required Masonry classes */
 .masonry-grid {
-  columns: 2; /* Start with 2 columns on mobile */
-  column-gap: 15px;
-  padding: 0;
+  display: flex;
+  margin-left: -15px; /* gutter size offset */
+  width: auto;
+}
+.masonry-column {
+  padding-left: 15px; /* gutter size */
+  background-clip: padding-box;
 }
 
-.product-card {
-  display: inline-block;
-  width: 100%;
+/* Space between items */
+.masonry-column > * {
   margin-bottom: 15px;
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
-
-/* Responsive columns */
-@media (min-width: 640px) {
-  .masonry-grid {
-    columns: 3;
-  }
-}
-
-@media (min-width: 768px) {
-  .masonry-grid {
-    columns: 4;
-  }
-}
-
-@media (min-width: 1024px) {
-  .masonry-grid {
-    columns: 5;
-  }
-}
-
-@media (min-width: 1280px) {
-  .masonry-grid {
-    columns: 6;
-  }
-}
-
 
   @media (prefers-reduced-motion: no-preference) {
     html {

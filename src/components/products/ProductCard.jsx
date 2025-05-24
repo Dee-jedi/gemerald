@@ -22,18 +22,21 @@ export const ProductCard = ({ product }) => {
       style={{ "--card-size": cardSize }}
     >
       {/* Image */}
-      <div className="aspect-[3/4] overflow-hidden relative">
+      <div className="overflow-hidden relative rounded-t-xl max-h-[280px] sm:max-h-[320px] md:max-h-[360px] lg:max-h-[400px] xl:max-h-[440px]">
         {!isImageLoaded && (
-          <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-xl"></div>
+          <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-t-xl" />
         )}
         <img
           src={product.image}
           alt={product.name}
-          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+          className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
             isImageLoaded ? "opacity-100" : "opacity-0"
           }`}
           loading="lazy"
           onLoad={() => setIsImageLoaded(true)}
+          style={{
+            maxHeight: "100%", // fallback
+          }}
         />
       </div>
 
