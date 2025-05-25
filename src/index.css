@@ -53,6 +53,12 @@
   width: 100%;
 }
 
+ @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .pb-16 {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
+  }
+
 /* Hide scrollbar but allow scrolling */
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
