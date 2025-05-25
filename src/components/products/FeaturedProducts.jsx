@@ -39,7 +39,7 @@ export const FeaturedProducts = () => {
       <div className="max-w-7xl mx-auto px-6">
         <ScrollAnimatedItem amount={0.1}>
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-serif font-medium">
+            <h2 className="text-3xl md:text-5xl font-serif font-medium text-nowrap text-[var(--color-text)]">
               Featured Fragrances
             </h2>
           </div>

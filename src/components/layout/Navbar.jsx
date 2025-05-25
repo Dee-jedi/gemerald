@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { HiOutlineShoppingCart } from "react-icons/hi";
+
 const Navbar = () => {
   const links = [
     { name: "Home", to: "/" },
@@ -7,12 +10,14 @@ const Navbar = () => {
     { name: "Contact", to: "/contact" },
   ];
 
+  const [cartItemCount] = useState(2); // Example count
+
   const navLinkClass =
     "block px-4 py-2 text-[var(--color-text)] hover:text-[var(--color-wood)] transition-colors duration-300";
 
   return (
     <nav className="relative w-full" role="navigation">
-      {/* Desktop Links - centered */}
+      {/* Desktop Links */}
       <div className="hidden md:flex justify-center space-x-6">
         {links.map((link) => (
           <NavLink
@@ -27,6 +32,23 @@ const Navbar = () => {
             {link.name}
           </NavLink>
         ))}
+      </div>
+
+      {/* Mobile Cart Icon with PROPERLY POSITIONED Badge */}
+      <div className="md:hidden absolute right-0 top-1/2 -translate-y-1/2">
+        <NavLink
+          to="/cart"
+          className="relative p-2 text-[var(--color-text)] hover:text-[var(--color-wood)] transition-all duration-300"
+        >
+          <div className="relative">
+            <HiOutlineShoppingCart className="w-6 h-6" />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[var(--color-accent)] text-white text-[10px] font-medium rounded-full h-5 w-5 flex items-center justify-center border border-[var(--color-card)]">
+                {cartItemCount > 9 ? "9+" : cartItemCount}
+              </span>
+            )}
+          </div>
+        </NavLink>
       </div>
     </nav>
   );
