@@ -18,7 +18,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md ${
+      className={`group relative overflow-hidden rounded-3xl sm:rounded-xl bg-[var(--color-card)] sm:border sm:border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md ${
         fixedHeight ? "h-full flex flex-col" : ""
       }`}
       style={!fixedHeight ? { height: cardHeight } : {}}
