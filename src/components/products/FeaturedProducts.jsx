@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { ProductCard } from "./ProductCard";
 import { featuredProducts } from "../../data/products";
 import { ScrollAnimatedItem } from "../../utils/pageAnimations";
-import Button from "../ui/CustomButton";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -36,7 +35,7 @@ export const FeaturedProducts = () => {
   }
 
   return (
-    <section className="py-16  bg-[var(--color-bg)]">
+    <section className="md:py-16 py-12  bg-[var(--color-bg)]">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <ScrollAnimatedItem amount={0.1}>

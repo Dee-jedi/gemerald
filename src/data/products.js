@@ -16,7 +16,7 @@ export const featuredProducts = [
     name: "Amber Nocturne",
     price: "50,000",
     category: "Perfume",
-    image: product1,
+    image: product7,
     rating: 4.3,
   },
   {
@@ -24,7 +24,7 @@ export const featuredProducts = [
     name: "Velvet Woods Aromatic Candle",
     price: "25,000",
     category: "Candle",
-    image: product2,
+    image: product4,
     rating: 3.9,
   },
   {
@@ -32,7 +32,7 @@ export const featuredProducts = [
     name: "Blackberry Spice Candle",
     price: "43,500",
     category: "Candle",
-    image: product3,
+    image: product6,
     rating: 4.5,
   },
 ];
@@ -44,7 +44,7 @@ export const allProducts = [
     name: "Golden Dusk Elixir Perfume",
     price: "19,750",
     category: "Perfume",
-    image: product4,
+    image: product2,
     rating: 4.1,
   },
   {
@@ -60,7 +60,7 @@ export const allProducts = [
     name: "Sandalwood Whisper Mist",
     price: "23,000",
     category: "Perfume",
-    image: product6,
+    image: product3,
     rating: 4.0,
   },
   {
@@ -68,7 +68,7 @@ export const allProducts = [
     name: "Midnight Amber Eau Fraîche",
     price: "21,500",
     category: "Perfume",
-    image: product7,
+    image: product1,
     rating: 3.6,
   },
   {

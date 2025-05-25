@@ -39,18 +39,17 @@ const ProductSkeleton = ({ randomHeight = false }) => {
       ) : (
         // Mobile layout - overlay on image
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-6">
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <div className="flex justify-between items-center gap-2">
               <div className="flex-1 min-w-0 space-y-1">
-                <div className="h-3 bg-[color-mix(in_srgb,white,transparent_60%)] rounded w-3/4"></div>
-                <div className="h-2.5 bg-[color-mix(in_srgb,var(--color-soft-amber),transparent_30%)] rounded w-1/2"></div>
+                <div className="h-3 bg-[color-mix(in_srgb,white,transparent_80%)] rounded w-3/4"></div>
               </div>
               <div className="flex items-center gap-1">
-                <div className="h-3 w-3 bg-[color-mix(in_srgb,var(--color-wood),transparent_30%)] rounded-full"></div>
-                <div className="h-2.5 bg-[color-mix(in_srgb,white,transparent_60%)] rounded w-4"></div>
+                <div className="h-3 w-3 bg-[color-mix(in_srgb,var(--color-wood),transparent_40%)] rounded-full"></div>
+                <div className="h-2.5 bg-[color-mix(in_srgb,white,transparent_70%)] rounded w-4"></div>
               </div>
             </div>
-            <div className="h-7 bg-[color-mix(in_srgb,white,transparent_85%)] rounded mt-1 border border-[color-mix(in_srgb,var(--color-border),transparent_50%)]"></div>
+            <div className="h-7 bg-[color-mix(in_srgb,white,transparent_90%)] rounded-[6px] mt-1 border border-[color-mix(in_srgb,var(--color-border),transparent_50%)]"></div>
           </div>
         </div>
       )}

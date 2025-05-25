@@ -47,7 +47,7 @@ const Products = () => {
             rounded-full focus:outline-none 
             focus:ring-1 focus:ring-[color-mix(in_srgb,var(--color-wood),white_20%)] 
             focus:border-transparent 
-            placeholder:text-[color-mix(in_srgb,var(--color-wood),transparent_60%)]
+            placeholder:text-[#ffffff1a]
             transition-all duration-300 
             shadow-sm shadow-black/20
             hover:border-[color-mix(in_srgb,var(--color-border),white_10%)]"
@@ -67,14 +67,14 @@ const Products = () => {
           </div>
         </ScrollAnimatedItem>
 
-        {/* Filters */}
+        {/* Filters - Updated with nowrap and scrollable container */}
         <ScrollAnimatedItem amount={0.1} className="mb-6 md:mb-12">
-          <div className="flex flex-wrap gap-4 pb-6 relative">
+          <div className="flex flex-nowrap gap-4 pb-6 relative overflow-x-auto no-scrollbar">
             {["all", "perfume", "candle", "gift set"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-4 py-2 capitalize font-serif text-sm cursor-pointer transition-colors relative ${
+                className={`px-4 py-2 capitalize font-serif text-sm cursor-pointer transition-colors relative whitespace-nowrap ${
                   filter === cat
                     ? "text-[var(--color-wood)]"
                     : "text-gray-400 hover:text-[var(--color-wood)]"

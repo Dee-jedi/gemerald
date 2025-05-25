@@ -62,11 +62,10 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
           <Link to={`/products/${product.id}`} className="block pt-1">
             <Button
               variant="outline"
-              size="lg"
               fullWidth
-              className="gap-1.5 text-xs py-1"
+              className="gap-2 py-[14px] text-xs font-medium"
             >
-              <Eye className="w-3 h-3 text-[var(--color-wood)]" />
+              <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
               View Details
             </Button>
           </Link>
@@ -92,11 +91,10 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
             <Link to={`/products/${product.id}`} className="block pt-1">
               <Button
                 variant="outline"
-                size="md"
                 fullWidth
-                className="gap-1.5 text-xs py-[10px] bg-black sm:bg-white/90 sm:hover:bg-white"
+                className="gap-2 py-2 text-xs font-medium bg-black sm:bg-white/90 sm:hover:bg-white"
               >
-                <Eye className="w-3 h-3 text-[var(--color-wood)]" />
+                <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
                 View Details
               </Button>
             </Link>
