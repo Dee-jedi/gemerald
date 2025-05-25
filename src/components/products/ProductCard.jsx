@@ -19,12 +19,16 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
   return (
     <div
       className={`group relative overflow-hidden rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md ${
-        fixedHeight ? "h-full" : ""
+        fixedHeight ? "h-full flex flex-col" : ""
       }`}
       style={!fixedHeight ? { height: cardHeight } : {}}
     >
-      {/* Image container */}
-      <div className={`relative ${fixedHeight ? "aspect-square" : "h-full"}`}>
+      {/* Image container - updated */}
+      <div
+        className={`relative ${
+          fixedHeight ? "aspect-square flex-shrink-0" : "h-full"
+        }`}
+      >
         {!isImageLoaded && (
           <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-t-xl" />
         )}
@@ -44,7 +48,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
       {/* Info section - different layout for mobile/desktop */}
       {fixedHeight ? (
         // Desktop layout - below image
-        <div className="p-3 space-y-1.5 bg-[var(--color-card)]">
+        <div className="p-3 space-y-1.5 bg-[var(--color-card)] flex-grow flex flex-col">
           <div className="flex justify-between items-center gap-2">
             <div className="flex-1 min-w-0">
               <h3 className="font-medium text-sm text-[var(--color-text)] line-clamp-1 leading-tight">
@@ -63,7 +67,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
             <Button
               variant="outline"
               fullWidth
-              className="gap-2 py-[14px] text-xs font-medium"
+              className="gap-2 py-3 text-xs font-medium"
             >
               <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
               View Details
@@ -92,7 +96,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
               <Button
                 variant="outline"
                 fullWidth
-                className="gap-2 py-2 text-xs font-medium bg-black sm:bg-white/90 sm:hover:bg-white"
+                className="gap-2 py-[10px] text-xs font-medium bg-black"
               >
                 <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
                 View Details

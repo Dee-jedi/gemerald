@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Button from "../ui/CustomButton";
 import productImage from "../../assets/images/product_9.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AnimatedPage, ScrollAnimatedItem } from "../../utils/pageAnimations";
 
 export const LandingHero = ({ onExplore }) => {

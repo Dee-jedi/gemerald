@@ -1,17 +1,17 @@
-// src/components/products/FeaturedProducts.jsx
 import { useState, useEffect } from "react";
 import { ProductCard } from "./ProductCard";
 import { featuredProducts } from "../../data/products";
 import { ScrollAnimatedItem } from "../../utils/pageAnimations";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useMediaQuery } from "react-responsive";
 
 export const FeaturedProducts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   useEffect(() => {
-    // Simulate loading
     const timer = setTimeout(() => {
       setProducts(featuredProducts);
       setIsLoading(false);
@@ -24,9 +24,9 @@ export const FeaturedProducts = () => {
     return (
       <section className="py-16 md:py-24 bg-[var(--color-bg)]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {[...Array(6)].map((_, i) => (
-              <ProductSkeleton key={i} />
+              <ProductSkeleton key={i} isMobile={isMobile} />
             ))}
           </div>
         </div>
@@ -35,41 +35,49 @@ export const FeaturedProducts = () => {
   }
 
   return (
-    <section className="md:py-16 py-12  bg-[var(--color-bg)]">
+    <section className="md:py-16 py-12 bg-[var(--color-bg)]">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Section Header */}
         <ScrollAnimatedItem amount={0.1}>
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-serif font-medium ">
+            <h2 className="text-4xl md:text-5xl font-serif font-medium">
               Featured Fragrances
             </h2>
           </div>
         </ScrollAnimatedItem>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product, index) => (
-            <ScrollAnimatedItem
+        <div
+          className={
+            isMobile
+              ? "columns-2 gap-4"
+              : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+          }
+        >
+          {products.map((product, index) => (
+            <div
               key={product.id}
-              amount={0.1}
-              variants={{
-                offscreen: { y: 40, opacity: 0 },
-                onscreen: {
-                  y: 0,
-                  opacity: 1,
-                  transition: { delay: index * 0.1 },
-                },
-              }}
+              className={isMobile ? "mb-4 break-inside-avoid" : ""}
             >
-              <ProductCard product={product} />
-            </ScrollAnimatedItem>
+              <ScrollAnimatedItem
+                amount={0.1}
+                variants={{
+                  offscreen: { y: 40, opacity: 0 },
+                  onscreen: {
+                    y: 0,
+                    opacity: 1,
+                    transition: { delay: index * 0.1 },
+                  },
+                }}
+              >
+                <ProductCard product={product} fixedHeight={!isMobile} />
+              </ScrollAnimatedItem>
+            </div>
           ))}
         </div>
 
         <div className="flex justify-end mt-6 px-4 md:px-6">
           <Link
             to="/products"
-            className="text-[var(--color-accent)] font-medium hover:underline flex items-center gap-1 group"
+            className="text-[var(--color-soft-amber)] font-medium hover:underline flex items-center gap-1 group"
           >
             See All
             <ArrowRight
@@ -83,13 +91,23 @@ export const FeaturedProducts = () => {
   );
 };
 
-const ProductSkeleton = () => (
-  <div className="animate-pulse rounded-xl bg-[var(--color-card)]">
-    <div className="aspect-square bg-[var(--color-border)] rounded-t-xl"></div>
-    <div className="p-6 space-y-4">
-      <div className="h-6 bg-[var(--color-border)] rounded w-3/4"></div>
-      <div className="h-4 bg-[var(--color-border)] rounded w-1/2"></div>
-      <div className="h-10 bg-[var(--color-border)] rounded"></div>
-    </div>
+const ProductSkeleton = ({ isMobile = false }) => (
+  <div
+    className={`animate-pulse rounded-xl bg-[var(--color-card)] ${
+      !isMobile ? "flex flex-col h-full" : ""
+    }`}
+  >
+    <div
+      className={`${
+        !isMobile ? "aspect-square" : "h-full"
+      } bg-[var(--color-border)] rounded-t-xl`}
+    ></div>
+    {!isMobile && (
+      <div className="p-3 space-y-1.5">
+        <div className="h-4 bg-[var(--color-border)] rounded w-3/4"></div>
+        <div className="h-3 bg-[var(--color-border)] rounded w-1/2"></div>
+        <div className="h-8 bg-[var(--color-border)] rounded mt-2"></div>
+      </div>
+    )}
   </div>
 );

@@ -35,6 +35,15 @@ export const featuredProducts = [
     image: product6,
     rating: 4.5,
   },
+
+  {
+    id: 6,
+    name: "Sandalwood Whisper Mist",
+    price: "23,000",
+    category: "Perfume",
+    image: product3,
+    rating: 4.0,
+  },
 ];
 
 export const allProducts = [
@@ -54,14 +63,6 @@ export const allProducts = [
     category: "Perfume",
     image: product5,
     rating: 3.8,
-  },
-  {
-    id: 6,
-    name: "Sandalwood Whisper Mist",
-    price: "23,000",
-    category: "Perfume",
-    image: product3,
-    rating: 4.0,
   },
   {
     id: 7,
