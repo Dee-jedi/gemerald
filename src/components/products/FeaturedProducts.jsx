@@ -35,7 +35,7 @@ export const FeaturedProducts = () => {
   }
 
   return (
-    <section className="md:py-16 py-12 bg-[var(--color-bg)]">
+    <section className="md:py-16 pt-12 pb-8 bg-[var(--color-bg)]">
       <div className="max-w-7xl mx-auto px-6">
         <ScrollAnimatedItem amount={0.1}>
           <div className="text-center mb-12">
@@ -74,7 +74,7 @@ export const FeaturedProducts = () => {
           ))}
         </div>
 
-        <div className="flex justify-end mt-6 px-4 md:px-6">
+        <div className="flex justify-end mt-4 px-4 md:px-6">
           <Link
             to="/products"
             className="text-[var(--color-soft-amber)] font-medium hover:underline flex items-center gap-1 group"

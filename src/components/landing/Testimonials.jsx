@@ -6,7 +6,7 @@ const testimonials = [
     id: 1,
     quote:
       "The Midnight Rose perfume is intoxicating. I've never received so many compliments.",
-    author: "Élise D.",
+    author: "Adetola.",
     role: "Fashion Editor",
     rating: 5,
     product: "Midnight Rose Perfume",
@@ -15,7 +15,7 @@ const testimonials = [
     id: 2,
     quote:
       "Our entire apartment smells like a Tuscan villa. The Vanilla Oak candle is divine.",
-    author: "Marcus T.",
+    author: "Kolawole T.",
     role: "Interior Designer",
     rating: 5,
     product: "Vanilla Oak Candle",
@@ -24,7 +24,7 @@ const testimonials = [
     id: 3,
     quote:
       "The gift set elevated my anniversary. My wife said it was the most thoughtful present.",
-    author: "Olivia R.",
+    author: "Dee Etinwa.",
     role: "Art Curator",
     rating: 4,
     product: "Signature Gift Set",
@@ -45,7 +45,7 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="py-10 md:py-24 relative overflow-hidden">
+    <section className="py-14 md:py-24 relative overflow-hidden">
       {/* New border styling */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-soft-amber)] to-transparent opacity-10"></div>
 
