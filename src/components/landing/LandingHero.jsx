@@ -50,7 +50,7 @@ export const LandingHero = ({ onExplore }) => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pt-12 md:py-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
           {/* Text Content */}
           <div className="space-y-3 md:space-y-8">
             <ScrollAnimatedItem
