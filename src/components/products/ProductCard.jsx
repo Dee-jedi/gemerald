@@ -96,7 +96,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
               <Button
                 variant="outline"
                 fullWidth
-                className="gap-2 py-[10px] text-xs font-medium bg-black"
+                className="gap-2 py-[10px] text-xs font-medium bg-black whitespace-nowrap"
               >
                 <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
                 View Details

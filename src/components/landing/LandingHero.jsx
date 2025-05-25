@@ -148,7 +148,7 @@ export const LandingHero = ({ onExplore }) => {
                     className="px-6"
                     onClick={handleExploreClick}
                   >
-                    <span className="py-1">Discover Collections</span>
+                    <span className="md:py-1">Discover Collections</span>
                   </Button>
                 </div>
               </div>
