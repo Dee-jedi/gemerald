@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Header, Footer } from "./components/layout";
+import { Header } from "./components/layout";
 import { Home, Products, About, Contact, NotFound } from "./pages";
 import { AnimatePresence } from "framer-motion";
 import MobileBottomNav from "./components/layout/MobileBottomNav"; // Import the new component
@@ -31,7 +31,6 @@ const App = () => {
           </Routes>
         </main>
       </AnimatePresence>
-      <Footer />
       <MobileBottomNav /> {/* Add the bottom navigation */}
     </div>
   );
