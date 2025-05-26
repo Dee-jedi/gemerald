@@ -63,7 +63,10 @@ const ContactPage = () => {
             <div className="space-y-8">
               <ScrollAnimatedItem amount={0.1} delay={0.3}>
                 <div className="flex items-start gap-5">
-                  <div className="p-3 rounded-full bg-[var(--color-wood)]/10 text-[var(--color-wood)]">
+                  <div
+                    className="p-3 rounded-full text-[var(--color-wood)]"
+                    style={{ backgroundColor: "rgba(222, 184, 135, 0.1)" }}
+                  >
                     <HiMail className="w-6 h-6" />
                   </div>
                   <div>
@@ -82,7 +85,10 @@ const ContactPage = () => {
 
               <ScrollAnimatedItem amount={0.1} delay={0.4}>
                 <div className="flex items-start gap-5">
-                  <div className="p-3 rounded-full bg-[var(--color-wood)]/10 text-[var(--color-wood)]">
+                  <div
+                    className="p-3 rounded-full text-[var(--color-wood)]"
+                    style={{ backgroundColor: "rgba(222, 184, 135, 0.1)" }}
+                  >
                     <HiPhone className="w-6 h-6" />
                   </div>
                   <div>
@@ -98,30 +104,12 @@ const ContactPage = () => {
                   </div>
                 </div>
               </ScrollAnimatedItem>
-
-              <ScrollAnimatedItem amount={0.1} delay={0.5}>
-                <div className="flex items-start gap-5">
-                  <div className="p-3 rounded-full bg-[var(--color-wood)]/10 text-[var(--color-wood)]">
-                    <HiLocationMarker className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-xl md:text-2xl mb-2">
-                      Studio
-                    </h3>
-                    <p className="text-[var(--color-text)]/80 text-lg leading-relaxed">
-                      14 Scented Boulevard
-                      <br />
-                      Victoria Island, Lagos, Nigeria
-                    </p>
-                  </div>
-                </div>
-              </ScrollAnimatedItem>
             </div>
 
             {/* Social Media Section */}
-            <div className="pt-4">
+            <div>
               <ScrollAnimatedItem amount={0.1} delay={0.6}>
-                <h3 className="font-serif text-2xl mb-6">Connect With Us</h3>
+                <h3 className="font-serif text-2xl mb-6 ">Connect With Us</h3>
               </ScrollAnimatedItem>
 
               {/* Desktop - Full handles */}
@@ -146,7 +134,7 @@ const ContactPage = () => {
 
               {/* Mobile - Icons only */}
               <ScrollAnimatedItem amount={0.2} delay={0.7}>
-                <div className="md:hidden flex gap-5">
+                <div className="md:hidden flex gap-5 items-center justify-center">
                   {socialLinks.map((social, index) => (
                     <a
                       key={index}

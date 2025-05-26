@@ -36,10 +36,11 @@ const NotFound = () => {
           </Link>
           <Link
             to="/products"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--color-wood)]/10 hover:bg-[var(--color-wood)]/20 border border-transparent text-[var(--color-wood)]/80 hover:text-[var(--color-wood)] rounded-lg transition-all duration-500"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 border border-transparent text-[var(--color-wood)] rounded-lg transition-all duration-500"
+            style={{ backgroundColor: "rgba(222, 184, 135, 0.2)" }}
           >
             <HiArrowSmLeft className="w-4 h-4" />
-            Explore Collections
+            <p>Explore Collections</p>
           </Link>
         </div>
       </div>
