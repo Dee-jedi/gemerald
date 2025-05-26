@@ -40,11 +40,11 @@ const Footer = () => {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 border border-[var(--color-border)] rounded-full hover:border-[var(--color-wood)] hover:bg-[var(--color-wood)]/5 transition-all duration-300"
+              className="p-[14px] border border-[var(--color-border)] rounded-full hover:border-[var(--color-wood)] hover:bg-[var(--color-wood)]/5 transition-all duration-300"
               aria-label={social.name}
             >
               {React.cloneElement(social.icon, {
-                className: "w-6 h-6 text-[var(--color-wood)]",
+                className: "w-[22px] h-[22px] text-[var(--color-wood)]",
               })}
             </a>
           ))}
