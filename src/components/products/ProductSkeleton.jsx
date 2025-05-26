@@ -12,7 +12,7 @@ const ProductSkeleton = ({ randomHeight = false }) => {
 
   return (
     <div
-      className="group relative overflow-hidden rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] animate-pulse"
+      className="group relative overflow-hidden rounded-xl bg-[var(--color-card)] animate-pulse"
       style={isMobile && randomHeight ? { height: mobileHeight } : {}}
     >
       {/* Image skeleton - matches both layouts */}
