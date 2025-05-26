@@ -116,7 +116,7 @@ export const LandingHero = ({ onExplore }) => {
                 },
               }}
             >
-              <p className="text-lg text-gray-300 max-w-lg leading-relaxed">
+              <p className="text-lg text-[var(--color-text)]/80 max-w-lg leading-relaxed">
                 Immerse yourself in the exquisite world of Gemerald, where each
                 fragrance tells a story of craftsmanship and timeless elegance.
                 Our perfumes and candles are meticulously crafted to transform
