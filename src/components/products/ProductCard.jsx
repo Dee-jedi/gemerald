@@ -18,7 +18,7 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-3xl sm:rounded-xl bg-[var(--color-card)] sm:border sm:border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300 shadow-sm hover:shadow-md ${
+      className={`group relative overflow-hidden rounded-3xl sm:rounded-2xl bg-[var(--color-card)]  transition-all duration-300 shadow-sm hover:shadow-md ${
         fixedHeight ? "h-full flex flex-col" : ""
       }`}
       style={!fixedHeight ? { height: cardHeight } : {}}
@@ -48,13 +48,13 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
       {/* Info section - different layout for mobile/desktop */}
       {fixedHeight ? (
         // Desktop layout - below image
-        <div className="p-3 space-y-1.5 bg-[var(--color-card)] flex-grow flex flex-col">
+        <div className="p-4 space-y-2.5 bg-[var(--color-card)] flex-grow flex flex-col">
           <div className="flex justify-between items-center gap-2">
             <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-sm text-[var(--color-text)] line-clamp-1 leading-tight">
+              <h3 className="font-medium text-[15px] text-[var(--color-text)] line-clamp-1 leading-tight">
                 {product.name}
               </h3>
-              <p className="text-xs font-semibold text-[var(--color-soft-amber)]">
+              <p className="text-sm font-semibold text-[var(--color-soft-amber)]">
                 #{product.price}
               </p>
             </div>
@@ -63,16 +63,18 @@ export const ProductCard = ({ product, fixedHeight = false }) => {
               {product.rating?.toFixed(1) ?? "4.0"}
             </div>
           </div>
-          <Link to={`/products/${product.id}`} className="block pt-1">
-            <Button
-              variant="outline"
-              fullWidth
-              className="gap-2 py-3 text-xs font-medium"
-            >
-              <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
-              View Details
-            </Button>
-          </Link>
+          <div className="mt-auto pt-2">
+            <Link to={`/products/${product.id}`} className="block">
+              <Button
+                variant="outline"
+                fullWidth
+                className="gap-2 py-2.5 text-xs font-medium"
+              >
+                <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
+                View Details
+              </Button>
+            </Link>
+          </div>
         </div>
       ) : (
         // Mobile layout - overlay on image
