@@ -50,7 +50,7 @@ const AboutPage = () => {
                   <img
                     src={ownerPhoto}
                     alt="Gemerald Founder"
-                    className="w-full h-auto max-h-[70vh] object-cover rounded-2xl shadow-xl group-hover:shadow-[0_20px_50px_rgba(183,_93,_47,_0.2)] transition-all duration-500"
+                    className="w-full sm:h-auto h-[300px] max-h-[70vh] object-cover rounded-2xl shadow-xl group-hover:shadow-[0_20px_50px_rgba(183,_93,_47,_0.2)] transition-all duration-500"
                     style={{ aspectRatio: "3/4" }}
                   />
                 </div>
@@ -80,20 +80,20 @@ const AboutPage = () => {
             </h2>
           </ScrollAnimatedItem>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-12 w-full px-4">
             {[
               {
-                icon: <HiSparkles className="w-8 h-8 mx-auto" />,
+                icon: <HiSparkles className="w-10 h-10 mx-auto" />,
                 title: "Artistry",
                 desc: "Every scent is composed like a symphony, with top, middle, and base notes carefully balanced for unforgettable harmony.",
               },
               {
-                icon: <HiGlobeAlt className="w-8 h-8 mx-auto" />,
+                icon: <HiGlobeAlt className="w-10 h-10 mx-auto" />,
                 title: "Sustainability",
                 desc: "We source ingredients responsibly, ensuring our luxury never comes at the expense of people or planet.",
               },
               {
-                icon: <HiHeart className="w-8 h-8 mx-auto" />,
+                icon: <HiHeart className="w-10 h-10 mx-auto" />,
                 title: "Emotion",
                 desc: "Fragrances designed to evoke memories, create connections, and elevate everyday moments.",
               },
@@ -103,12 +103,14 @@ const AboutPage = () => {
                 amount={0.2}
                 delay={0.2 + index * 0.1}
               >
-                <div className="bg-[color-mix(in_srgb,var(--color-bg),transparent_10%)] border border-[var(--color-border)] p-8 rounded-xl h-full transition-all hover:border-[var(--color-soft-amber)]/30">
-                  <div className="text-[var(--color-wood)] mb-4">
+                <div className="bg-[color-mix(in_srgb,var(--color-bg),transparent_10%)] border border-[var(--color-border)] p-8 rounded-xl h-full transition-all hover:border-[var(--color-soft-amber)]/30 hover:shadow-[0_10px_30px_rgba(183,93,47,0.05)] flex flex-col">
+                  <div className="text-[var(--color-wood)] mb-6">
                     {item.icon}
                   </div>
-                  <h3 className="font-serif text-xl mb-3">{item.title}</h3>
-                  <p className="text-[var(--color-text)]/80">{item.desc}</p>
+                  <h3 className="font-serif text-2xl mb-4">{item.title}</h3>
+                  <p className="text-[var(--color-text)]/80 md:text-lg leading-relaxed flex-grow">
+                    {item.desc}
+                  </p>
                 </div>
               </ScrollAnimatedItem>
             ))}
@@ -117,7 +119,7 @@ const AboutPage = () => {
       </section>
 
       {/* Signature Section */}
-      <section className=" md:py-24 relative">
+      <section className=" md:py-24 py-4 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollAnimatedItem amount={0.1}>
@@ -126,17 +128,17 @@ const AboutPage = () => {
                   <img
                     src={craftsmanshipPhoto}
                     alt="Gemerald Craftsmanship"
-                    className="w-full h-auto max-h-[70vh] object-cover rounded-2xl shadow-xl group-hover:shadow-[0_20px_50px_rgba(183,_93,_47,_0.2)] transition-all duration-500"
+                    className="w-full sm:h-auto h-[300px] max-h-[70vh] object-cover rounded-2xl shadow-xl group-hover:shadow-[0_20px_50px_rgba(183,_93,_47,_0.2)] transition-all duration-500"
                   />
                 </div>
                 <div className="absolute -bottom-4 -left-4 w-20 h-20 border-2 border-[var(--color-soft-amber)] opacity-30"></div>
               </div>
             </ScrollAnimatedItem>
 
-            <div className="space-y-6">
+            <div className="space-y-6 mt-4">
               <ScrollAnimatedItem amount={0.1}>
-                <span className="font-script text-3xl text-[var(--color-soft-amber)]">
-                  The Gemerald Touch
+                <span className="font-script text-3xl text-[var(--color-soft-amber)] ">
+                  The Gemerald Touch:
                 </span>
               </ScrollAnimatedItem>
 
