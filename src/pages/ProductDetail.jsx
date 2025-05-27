@@ -1,4 +1,3 @@
-// src/pages/ProductDetail.jsx
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -10,7 +9,7 @@ import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const { addToCart, cartItems } = useCart();
+  const { addToCart } = useCart(); // Removed unused cartItems
   const product = allProducts.find((p) => p.id === parseInt(id));
   const [isAdded, setIsAdded] = useState(false);
 
@@ -31,12 +30,21 @@ const ProductDetail = () => {
     );
   }
 
-  // Prepare both basic and additional details
+  // Prepare product details
   const basicDetails = [
     product.size && `Size: ${product.size}`,
     product.category && `Category: ${product.category}`,
     product.scent_type && `Scents: ${product.scent_type}`,
   ].filter(Boolean);
+
+  const handleAddToCart = () => {
+    addToCart({
+      ...product,
+      // Price sanitization now handled in CartContext
+    });
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   return (
     <AnimatedPage className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
@@ -70,12 +78,12 @@ const ProductDetail = () => {
 
           {/* Product Info */}
           <div className="space-y-8">
+            {/* Product Header */}
             <ScrollAnimatedItem amount={0.1} delay={0.1}>
               <div>
                 <h1 className="text-4xl md:text-5xl font-serif font-medium text-[var(--color-text)] leading-tight">
                   {product.name}
                 </h1>
-
                 <div className="flex items-center gap-5 mt-4">
                   <p className="text-3xl font-semibold text-[var(--color-soft-amber)]">
                     #{product.price}
@@ -88,7 +96,7 @@ const ProductDetail = () => {
               </div>
             </ScrollAnimatedItem>
 
-            {/* Description section */}
+            {/* Description */}
             {product.description && (
               <ScrollAnimatedItem amount={0.2} delay={0.2}>
                 <div className="prose max-w-none text-[var(--color-text)]/90">
@@ -97,7 +105,7 @@ const ProductDetail = () => {
               </ScrollAnimatedItem>
             )}
 
-            {/* Basic Product Details */}
+            {/* Specifications */}
             <ScrollAnimatedItem amount={0.1} delay={0.3}>
               <div className="space-y-4">
                 <h3 className="font-serif text-xl text-[var(--color-soft-amber)] border-b border-[var(--color-border)] pb-2">
@@ -118,8 +126,8 @@ const ProductDetail = () => {
               </div>
             </ScrollAnimatedItem>
 
-            {/* Additional Product Details */}
-            {product.details && product.details.length > 0 && (
+            {/* Features */}
+            {product.details?.length > 0 && (
               <ScrollAnimatedItem amount={0.1} delay={0.4}>
                 <div className="space-y-4">
                   <h3 className="font-serif text-xl text-[var(--color-soft-amber)] border-b border-[var(--color-border)] pb-2">
@@ -141,24 +149,17 @@ const ProductDetail = () => {
               </ScrollAnimatedItem>
             )}
 
-            {/* Add to Cart button */}
+            {/* Add to Cart Button */}
             <ScrollAnimatedItem amount={0.1} delay={0.5}>
               <div className="pt-6">
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   whileHover={{ scale: 1.02 }}
-                  onClick={() => {
-                    addToCart({
-                      ...product,
-                      price: Number(product.price.replace(/,/g, "")),
-                    });
-                    setIsAdded(true);
-                    setTimeout(() => setIsAdded(false), 2000);
-                  }}
+                  onClick={handleAddToCart}
                   className={`w-full py-4 px-6 text-lg font-medium flex items-center justify-center gap-3 rounded-lg transition-all ${
                     isAdded
                       ? "bg-emerald-700 text-white"
-                      : "bg-[var(--color-wood)]/30 hover:bg-[var(--color-wood)]/40 text-[var(--color-wood)] hover:text-[var(--color-wood)] border border-transparent"
+                      : "bg-[var(--color-wood)]/30 hover:bg-[var(--color-wood)]/40 text-[var(--color-wood)] border border-transparent"
                   }`}
                 >
                   {isAdded ? (
@@ -174,15 +175,13 @@ const ProductDetail = () => {
                   )}
                 </motion.button>
 
-                {/* Optional: Small notification that appears when added */}
                 {isAdded && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
                     className="text-center text-emerald-400 mt-2 text-sm"
                   >
-                    Item added to your cart
+                    Item saved to cart
                   </motion.div>
                 )}
               </div>

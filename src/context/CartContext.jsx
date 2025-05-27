@@ -4,28 +4,42 @@ import { createContext, useContext, useState, useEffect } from "react";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  // Initialize state with localStorage data (SSR-safe)
+  const [cartItems, setCartItems] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedCart = localStorage.getItem("cart");
+      return savedCart ? JSON.parse(savedCart) : [];
+    }
+    return [];
+  });
+
   const [cartItemCount, setCartItemCount] = useState(0);
 
-  // Load cart from localStorage on initial render
+  // Update count and localStorage when cart changes
   useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
-    }
-  }, []);
+    // Update total items count
+    const count = cartItems.reduce((total, item) => total + item.quantity, 0);
+    setCartItemCount(count);
 
-  // Save cart to localStorage and update count whenever cart changes
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-    setCartItemCount(
-      cartItems.reduce((total, item) => total + item.quantity, 0)
-    );
+    // Persist to localStorage (SSR-safe)
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
+      // Sanitize price if coming from string (e.g., "45,000" => 45000)
+      const sanitizedProduct = {
+        ...product,
+        price:
+          typeof product.price === "string"
+            ? Number(product.price.replace(/,/g, ""))
+            : product.price,
+      };
+
       const existingItem = prevItems.find((item) => item.id === product.id);
+
       if (existingItem) {
         return prevItems.map((item) =>
           item.id === product.id
@@ -33,7 +47,7 @@ export const CartProvider = ({ children }) => {
             : item
         );
       }
-      return [...prevItems, { ...product, quantity: 1 }];
+      return [...prevItems, { ...sanitizedProduct, quantity: 1 }];
     });
   };
 
@@ -59,11 +73,18 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  // Calculate total cart value
+  const cartTotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   return (
     <CartContext.Provider
       value={{
         cartItems,
         cartItemCount,
+        cartTotal,
         addToCart,
         removeFromCart,
         updateQuantity,
