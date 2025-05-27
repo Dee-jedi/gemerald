@@ -202,7 +202,7 @@ const CartPage = () => {
 
                     <button
                       onClick={handleWhatsAppCheckout}
-                      className="w-full py-3.5 mt-6 font-medium flex items-center justify-center gap-2 bg-[var(--color-wood)]/10 hover:bg-[var(--color-wood)]/20 text-[var(--color-wood)] hover:text-[var(--color-wood)] border border-transparent rounded-lg transition-all duration-500"
+                      className="w-full py-3.5 mt-6 font-medium flex items-center justify-center gap-2 bg-[rgba(222,184,135,0.1)] hover:bg-[rgba(222,184,135,0.2)] text-[#deb887] hover:text-[#deb887] border border-transparent rounded-lg transition-all duration-500"
                     >
                       <svg
                         className="w-5 h-5 text-emerald-700"

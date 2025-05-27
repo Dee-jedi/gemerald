@@ -159,7 +159,7 @@ const ProductDetail = () => {
                   className={`w-full py-4 px-6 text-lg font-medium flex items-center justify-center gap-3 rounded-lg transition-all ${
                     isAdded
                       ? "bg-emerald-700 text-white"
-                      : "bg-[var(--color-wood)]/30 hover:bg-[var(--color-wood)]/40 text-[var(--color-wood)] border border-transparent"
+                      : "bg-[rgba(222,184,135,0.3)] hover:bg-[rgba(222,184,135,0.4)] text-[#deb887] border border-transparent"
                   }`}
                 >
                   {isAdded ? (
