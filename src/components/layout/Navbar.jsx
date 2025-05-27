@@ -1,6 +1,7 @@
-import { useState } from "react";
+// src/components/Navbar.jsx
 import { NavLink } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi";
+import { useCart } from "../../context/CartContext";
 
 const Navbar = () => {
   const links = [
@@ -10,7 +11,7 @@ const Navbar = () => {
     { name: "Contact", to: "/contact" },
   ];
 
-  const [cartItemCount] = useState(2); // Example count
+  const { cartItemCount } = useCart();
 
   const navLinkClass =
     "block px-4 py-2 text-[var(--color-text)] hover:text-[var(--color-wood)] transition-colors duration-300";
@@ -34,7 +35,7 @@ const Navbar = () => {
         ))}
       </div>
 
-      {/* Mobile Cart Icon with PROPERLY POSITIONED Badge */}
+      {/* Cart Icon */}
       <div className="md:hidden absolute right-0 top-1/2 -translate-y-1/2">
         <NavLink
           to="/cart"
