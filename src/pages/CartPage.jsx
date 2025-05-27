@@ -15,7 +15,8 @@ const CartPage = () => {
   } = useCart();
 
   const handleWhatsAppCheckout = () => {
-    const phoneNumber = "2347017284810"; // Replace with brand's WhatsApp number (with country code, no + or 0)
+    const phoneNumber = "2347081691700"; // Replace with brand's WhatsApp Business number
+    const businessName = "Your Business Name"; // Add your client's business name
 
     // Format cart items into message
     const itemsText = cartItems
@@ -25,15 +26,16 @@ const CartPage = () => {
       )
       .join("\n");
 
-    const message = `Hello! I'd like to purchase:\n${itemsText}\n\nTotal: ₦${subtotal.toLocaleString()}`;
+    const message = `Hello ${businessName}! I'd like to purchase:\n${itemsText}\n\nTotal: ₦${subtotal.toLocaleString()}`;
 
     // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
 
-    // Open WhatsApp with prefilled message
+    // Open WhatsApp Business (same URL as regular WhatsApp)
     window.open(
       `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
-      "_blank"
+      "_blank",
+      "noopener,noreferrer" // Better security practice
     );
   };
 
