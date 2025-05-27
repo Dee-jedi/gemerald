@@ -16,7 +16,7 @@ const CartPage = () => {
 
   const handleWhatsAppCheckout = () => {
     const phoneNumber = "2347081691700"; // Replace with brand's WhatsApp Business number
-    const businessName = "Your Business Name"; // Add your client's business name
+    const businessName = "Gemerald"; // Add your client's business name
 
     // Format cart items into message
     const itemsText = cartItems
