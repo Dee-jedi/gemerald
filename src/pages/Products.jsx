@@ -9,15 +9,27 @@ const Products = () => {
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Helper function to shuffle array
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
   const filterAndSearch = () => {
     const filtered =
       filter === "all"
         ? allProducts
         : allProducts.filter((p) => p.category.toLowerCase() === filter);
 
-    return filtered.filter((product) =>
+    const searched = filtered.filter((product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    return shuffleArray(searched);
   };
 
   useEffect(() => {
@@ -70,7 +82,7 @@ const Products = () => {
         {/* Filters - Updated with nowrap and scrollable container */}
         <ScrollAnimatedItem amount={0.1} className="mb-6 md:mb-12">
           <div className="flex flex-nowrap gap-4 pb-6 relative overflow-x-auto no-scrollbar">
-            {["all", "perfume", "candle", "gift set"].map((cat) => (
+            {["all", "diffuser", "candle", "gift set", "perfume"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}

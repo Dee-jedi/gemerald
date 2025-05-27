@@ -1,31 +1,32 @@
 import React from "react";
-import { HiMail, HiPhone, HiLocationMarker } from "react-icons/hi";
-import { FiInstagram, FiTwitter, FiFacebook } from "react-icons/fi";
+import { HiMail, HiPhone } from "react-icons/hi";
+import { FiInstagram, FiFacebook } from "react-icons/fi";
 import { RiPinterestLine } from "react-icons/ri";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
 import ownerPhoto from "../assets/images/cover_photo.jpg";
+import { AiFillTikTok } from "react-icons/ai";
 
 const ContactPage = () => {
   const socialLinks = [
     {
       icon: <FiInstagram className="w-5 h-5" />,
-      name: "@gemerald_scents",
-      url: "https://instagram.com",
+      name: "@gemerald_ace",
+      url: "https://instagram.com/gemerald_ace",
     },
     {
-      icon: <FiTwitter className="w-5 h-5" />,
+      icon: <AiFillTikTok className="w-5 h-5" />,
       name: "@gemerald_official",
-      url: "https://twitter.com",
+      url: "https://tiktok.com/@gemeraldace",
     },
     {
       icon: <FiFacebook className="w-5 h-5" />,
       name: "/GemeraldScents",
-      url: "https://facebook.com",
+      url: "https://facebook.com/gemeraldace",
     },
     {
       icon: <RiPinterestLine className="w-5 h-5" />,
       name: "GemeraldDesigns",
-      url: "https://pinterest.com",
+      url: "https://pinterest.com/biszayn1",
     },
   ];
 
@@ -77,7 +78,7 @@ const ContactPage = () => {
                       href="mailto:contact@gemerald.com"
                       className="text-[var(--color-text)]/80 hover:text-[var(--color-wood)] transition-colors text-lg"
                     >
-                      contact@gemerald.com
+                      biszayn@gmail.com
                     </a>
                   </div>
                 </div>

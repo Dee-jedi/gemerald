@@ -18,6 +18,10 @@ import product17 from "../assets/images/product_17.jpg";
 import product18 from "../assets/images/product_18.jpg";
 import product19 from "../assets/images/product_19.jpg";
 import product20 from "../assets/images/product_20.jpg";
+import product21 from "../assets/images/product_21.jpg";
+import product22 from "../assets/images/product_22.jpg";
+import product24 from "../assets/images/product_24.jpg";
+import product25 from "../assets/images/product_25.jpg";
 
 export const featuredProducts = [
   {
@@ -338,6 +342,50 @@ export const allProducts = [
     price: "20,000",
     category: "Diffuser",
     image: product20,
+    rating: 4.6,
+    size: "120ml",
+    scent_type:
+      "Kiwi & Peach, Saffron, Arabian night, Coffee Arabica, Coconut Blast (Caramel & Coconut)",
+  },
+  {
+    id: 21,
+    name: "Ocean Driftwood",
+    price: "20,000",
+    category: "Diffuser",
+    image: product21,
+    rating: 4.6,
+    size: "120ml",
+    scent_type:
+      "Kiwi & Peach, Saffron, Arabian night, Coffee Arabica, Coconut Blast (Caramel & Coconut)",
+  },
+  {
+    id: 22,
+    name: "Ocean Driftwood",
+    price: "20,000",
+    category: "Diffuser",
+    image: product22,
+    rating: 4.6,
+    size: "120ml",
+    scent_type:
+      "Kiwi & Peach, Saffron, Arabian night, Coffee Arabica, Coconut Blast (Caramel & Coconut)",
+  },
+  {
+    id: 23,
+    name: "Ocean Driftwood",
+    price: "20,000",
+    category: "Diffuser",
+    image: product24,
+    rating: 4.6,
+    size: "120ml",
+    scent_type:
+      "Kiwi & Peach, Saffron, Arabian night, Coffee Arabica, Coconut Blast (Caramel & Coconut)",
+  },
+  {
+    id: 24,
+    name: "Ocean Driftwood",
+    price: "20,000",
+    category: "Diffuser",
+    image: product25,
     rating: 4.6,
     size: "120ml",
     scent_type:

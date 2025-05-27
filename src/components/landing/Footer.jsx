@@ -1,28 +1,29 @@
 import React from "react";
-import { FiInstagram, FiTwitter, FiFacebook } from "react-icons/fi";
+import { FiInstagram, FiFacebook } from "react-icons/fi";
 import { RiPinterestLine } from "react-icons/ri";
+import { AiFillTikTok } from "react-icons/ai";
 
 const Footer = () => {
   const socialLinks = [
     {
-      icon: <FiInstagram />,
-      name: "Instagram",
-      url: "https://instagram.com/gemerald_scents",
+      icon: <FiInstagram className="w-5 h-5" />,
+      name: "@gemerald_ace",
+      url: "https://instagram.com/gemerald_ace",
     },
     {
-      icon: <FiTwitter />,
-      name: "Twitter",
-      url: "https://twitter.com/gemerald_official",
+      icon: <AiFillTikTok className="w-5 h-5" />,
+      name: "@gemerald_official",
+      url: "https://tiktok.com/@gemeraldace",
     },
     {
-      icon: <FiFacebook />,
-      name: "Facebook",
-      url: "https://facebook.com/GemeraldScents",
+      icon: <FiFacebook className="w-5 h-5" />,
+      name: "/GemeraldScents",
+      url: "https://facebook.com/gemeraldace",
     },
     {
-      icon: <RiPinterestLine />,
-      name: "Pinterest",
-      url: "https://pinterest.com/GemeraldDesigns",
+      icon: <RiPinterestLine className="w-5 h-5" />,
+      name: "GemeraldDesigns",
+      url: "https://pinterest.com/biszayn1",
     },
   ];
 

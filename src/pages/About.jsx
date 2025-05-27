@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
 import ownerPhoto from "../assets/images/cover_photo.jpg";
-import craftsmanshipPhoto from "../assets/images/product_9.jpg";
+import craftsmanshipPhoto from "../assets/images/product_23.jpg";
 import { HiSparkles, HiGlobeAlt, HiHeart } from "react-icons/hi";
 
 const AboutPage = () => {
