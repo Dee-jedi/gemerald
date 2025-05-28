@@ -1,10 +1,8 @@
-// src/context/CartContext.js
 import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  // Initialize state with localStorage data (SSR-safe)
   const [cartItems, setCartItems] = useState(() => {
     if (typeof window !== "undefined") {
       const savedCart = localStorage.getItem("cart");
@@ -15,13 +13,10 @@ export const CartProvider = ({ children }) => {
 
   const [cartItemCount, setCartItemCount] = useState(0);
 
-  // Update count and localStorage when cart changes
   useEffect(() => {
-    // Update total items count
     const count = cartItems.reduce((total, item) => total + item.quantity, 0);
     setCartItemCount(count);
 
-    // Persist to localStorage (SSR-safe)
     if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(cartItems));
     }
@@ -29,13 +24,13 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
-      // Sanitize price if coming from string (e.g., "45,000" => 45000)
       const sanitizedProduct = {
         ...product,
         price:
           typeof product.price === "string"
             ? Number(product.price.replace(/,/g, ""))
             : product.price,
+        selectedScent: parseScentTypes(product.scent_type)[0], // Add default scent
       };
 
       const existingItem = prevItems.find((item) => item.id === product.id);
@@ -69,15 +64,27 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const updateScent = (productId, newScent) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === productId ? { ...item, selectedScent: newScent } : item
+      )
+    );
+  };
+
   const clearCart = () => {
     setCartItems([]);
   };
 
-  // Calculate total cart value
   const cartTotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  // Helper function to parse scent types
+  const parseScentTypes = (scentString) => {
+    return scentString.split(/\s*,\s*/);
+  };
 
   return (
     <CartContext.Provider
@@ -88,7 +95,9 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        updateScent,
         clearCart,
+        parseScentTypes,
       }}
     >
       {children}

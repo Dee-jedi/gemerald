@@ -1,7 +1,5 @@
-// src/pages/CartPage.jsx
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import Button from "../components/ui/CustomButton";
 import { X, ShoppingCart, ArrowLeft } from "lucide-react";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
 
@@ -10,36 +8,37 @@ const CartPage = () => {
     cartItems,
     removeFromCart,
     updateQuantity,
+    updateScent,
     clearCart,
     cartItemCount,
+    parseScentTypes,
   } = useCart();
 
   const handleWhatsAppCheckout = () => {
-    const phoneNumber = "2347081691700"; // Replace with brand's WhatsApp Business number
-    const businessName = "Gemerald"; // Add your client's business name
+    const phoneNumber = "2347081691700";
+    const businessName = "Gemerald";
 
-    // Format cart items into message
     const itemsText = cartItems
       .map(
         (item) =>
-          `${item.name} (${item.quantity} × ₦${item.price.toLocaleString()})`
+          `${item.name} (${
+            item.quantity
+          } × ₦${item.price.toLocaleString()}) - Scent: ${
+            item.selectedScent || parseScentTypes(item.scent_type)[0]
+          }`
       )
       .join("\n");
 
     const message = `Hello ${businessName}! I'd like to purchase:\n${itemsText}\n\nTotal: ₦${subtotal.toLocaleString()}`;
-
-    // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
 
-    // Open WhatsApp Business (same URL as regular WhatsApp)
     window.open(
       `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
       "_blank",
-      "noopener,noreferrer" // Better security practice
+      "noopener,noreferrer"
     );
   };
 
-  // Calculate total price
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -54,7 +53,6 @@ const CartPage = () => {
   return (
     <AnimatedPage className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
       <div className="container mx-auto px-4 sm:px-6 py-8">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <Link
             to="/products"
@@ -87,12 +85,10 @@ const CartPage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item) => (
                 <ScrollAnimatedItem key={item.id} amount={0.1}>
                   <div className="flex flex-col sm:flex-row gap-4 p-4 bg-[var(--color-glass)] backdrop-blur-sm rounded-lg border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300">
-                    {/* Product Image */}
                     <div className="w-full sm:w-24 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-[var(--color-bg)] flex items-center justify-center">
                       <img
                         src={item.image}
@@ -101,7 +97,6 @@ const CartPage = () => {
                       />
                     </div>
 
-                    {/* Product Info */}
                     <div className="flex-grow flex flex-col">
                       <div className="flex justify-between items-start gap-2">
                         <div>
@@ -120,7 +115,35 @@ const CartPage = () => {
                         </button>
                       </div>
 
-                      {/* Quantity Controls */}
+                      {/* Scent Selection */}
+                      <div className="mt-3">
+                        <label className="block text-sm text-[var(--color-text)]/80 mb-1 cursor-pointer">
+                          Scent Type:
+                        </label>
+                        <select
+                          value={
+                            item.selectedScent ||
+                            parseScentTypes(item.scent_type)[0]
+                          }
+                          onChange={(e) => updateScent(item.id, e.target.value)}
+                          className="w-full bg-[var(--color-bg)] border border-[var(--color-border)] rounded py-1.5 px-2  text-sm text-[var(--color-text)] focus:border-[var(--color-wood)] focus:outline-none focus:ring-1 focus:ring-[var(--color-wood)]/30 bg-no-repeat bg-[length:16px_16px] bg-[right_0.5rem_center] appearance-none"
+                          style={{
+                            backgroundImage:
+                              "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23d1834f'%3e%3cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3e%3c/svg%3e\")",
+                          }}
+                        >
+                          {parseScentTypes(item.scent_type).map((scent) => (
+                            <option
+                              key={scent}
+                              value={scent}
+                              className="bg-[var(--color-card)] text-[var(--color-text)]"
+                            >
+                              {scent}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
                       <div className="mt-auto pt-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
@@ -162,7 +185,6 @@ const CartPage = () => {
                 </ScrollAnimatedItem>
               ))}
 
-              {/* Clear Cart Button */}
               <div className="pt-2 flex justify-end">
                 <button
                   onClick={clearCart}
@@ -173,7 +195,6 @@ const CartPage = () => {
               </div>
             </div>
 
-            {/* Order Summary */}
             <div className="lg:col-span-1">
               <ScrollAnimatedItem amount={0.1} delay={0.2}>
                 <div className="bg-[var(--color-glass)] backdrop-blur-sm p-6 rounded-lg border border-[var(--color-border)] sticky top-8">

@@ -8,6 +8,25 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if window is defined (for SSR)
+    if (typeof window !== "undefined") {
+      const checkIfMobile = () => {
+        setIsMobile(window.innerWidth < 768); // 768px is typically md breakpoint
+      };
+
+      // Initial check
+      checkIfMobile();
+
+      // Add event listener for resize
+      window.addEventListener("resize", checkIfMobile);
+
+      // Cleanup
+      return () => window.removeEventListener("resize", checkIfMobile);
+    }
+  }, []);
 
   // Helper function to shuffle array
   const shuffleArray = (array) => {
@@ -99,6 +118,20 @@ const Products = () => {
               </button>
             ))}
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-soft-amber)] to-transparent opacity-10"></div>
+
+            {/* Scroll indicator - only shows on mobile */}
+            {isMobile && (
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1">
+                {[1, 2, 3].map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-1 h-1 rounded-full bg-[var(--color-border)] opacity-70 transition-all ${
+                      index === 0 ? "!opacity-100" : ""
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </ScrollAnimatedItem>
 
