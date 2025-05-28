@@ -128,7 +128,7 @@ const Products = () => {
 
             {/* Fixed scroll indicator (only on mobile) */}
             {isMobile && (
-              <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-1 pointer-events-none">
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 pointer-events-none">
                 {[1, 2, 3].map((_, index) => (
                   <div
                     key={index}
