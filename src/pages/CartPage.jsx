@@ -117,7 +117,7 @@ const CartPage = () => {
 
                       {/* Scent Selection */}
                       <div className="mt-3">
-                        <label className="block text-sm text-[var(--color-text)]/80 mb-1 cursor-pointer">
+                        <label className="block text-sm text-[var(--color-text)]/80 mb-2 cursor-pointer">
                           Scent Note:
                         </label>
                         <select
