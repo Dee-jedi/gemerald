@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
 import { allProducts } from "../data/products";
 import MasonryGrid from "../components/products/MasonryGrid";
@@ -9,24 +9,39 @@ const Products = () => {
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeDot, setActiveDot] = useState(0);
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    // Check if window is defined (for SSR)
     if (typeof window !== "undefined") {
       const checkIfMobile = () => {
-        setIsMobile(window.innerWidth < 768); // 768px is typically md breakpoint
+        setIsMobile(window.innerWidth < 768);
       };
-
-      // Initial check
       checkIfMobile();
-
-      // Add event listener for resize
       window.addEventListener("resize", checkIfMobile);
-
-      // Cleanup
       return () => window.removeEventListener("resize", checkIfMobile);
     }
   }, []);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || !isMobile) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const scrollWidth = container.scrollWidth;
+      const clientWidth = container.clientWidth;
+      const scrollPercentage = scrollLeft / (scrollWidth - clientWidth);
+
+      // Calculate active dot based on scroll position
+      const dotCount = 3;
+      const newActiveDot = Math.round(scrollPercentage * (dotCount - 1));
+      setActiveDot(newActiveDot);
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [isMobile]);
 
   // Helper function to shuffle array
   const shuffleArray = (array) => {
@@ -101,8 +116,10 @@ const Products = () => {
         {/* Filters - Updated with nowrap and scrollable container */}
         <ScrollAnimatedItem amount={0.1} className="mb-6 md:mb-12">
           <div className="relative">
-            {/* Scrollable content container */}
-            <div className="flex flex-nowrap gap-4 pb-6 relative overflow-x-auto no-scrollbar">
+            <div
+              ref={scrollContainerRef}
+              className="flex flex-nowrap gap-4 pb-6 relative overflow-x-auto no-scrollbar"
+            >
               {["all", "diffuser", "candle", "gift set", "perfume"].map(
                 (cat) => (
                   <button
@@ -123,17 +140,17 @@ const Products = () => {
               )}
             </div>
 
-            {/* Bottom border line */}
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-soft-amber)] to-transparent opacity-10"></div>
 
-            {/* Fixed scroll indicator (only on mobile) */}
             {isMobile && (
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 pointer-events-none">
-                {[1, 2, 3].map((_, index) => (
+              <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 pointer-events-none">
+                {[0, 1, 2].map((index) => (
                   <div
                     key={index}
-                    className={`w-1 h-1 rounded-full bg-[var(--color-soft-amber)] opacity-20 transition-all ${
-                      index === 0 ? "!opacity-50" : ""
+                    className={`w-1 h-1 rounded-full transition-all ${
+                      index === activeDot
+                        ? "bg-[var(--color-wood)] w-3 opacity-100"
+                        : "bg-gray-400 opacity-20 w-1"
                     }`}
                   />
                 ))}
