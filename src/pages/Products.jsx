@@ -57,10 +57,15 @@ const Products = () => {
     const filtered =
       filter === "all"
         ? allProducts
-        : allProducts.filter((p) => p.category.toLowerCase() === filter);
+        : allProducts.filter(
+            (p) =>
+              p.category && p.category.toLowerCase() === filter.toLowerCase()
+          );
 
-    const searched = filtered.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const searched = filtered.filter(
+      (product) =>
+        product.name &&
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return shuffleArray(searched);

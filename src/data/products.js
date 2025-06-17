@@ -13,10 +13,25 @@ import product12 from "../assets/images/product_12.jpg";
 import product14 from "../assets/images/product_14.jpg";
 import product16 from "../assets/images/product_16.jpg";
 import product17 from "../assets/images/product_17.jpg";
-import product19 from "../assets/images/product_19.jpg";
 import product22 from "../assets/images/product_22.jpg";
 import product24 from "../assets/images/product_24.jpg";
 import product25 from "../assets/images/product_25.jpg";
+
+// Perf Collection imports
+
+import per1 from "../assets/images/perfumes/per1.jpg";
+import per2 from "../assets/images/perfumes/per2.jpg";
+import per3 from "../assets/images/perfumes/per3.jpg";
+import per4 from "../assets/images/perfumes/per4.jpg";
+import per5 from "../assets/images/perfumes/per5.jpg";
+import per6 from "../assets/images/perfumes/per6.jpg";
+import per7 from "../assets/images/perfumes/per7.jpg";
+import per8 from "../assets/images/perfumes/per8.jpg";
+import per9 from "../assets/images/perfumes/per9.jpg";
+import per10 from "../assets/images/perfumes/per10.jpg";
+import per11 from "../assets/images/perfumes/per11.jpg";
+import per12 from "../assets/images/perfumes/per12.jpg";
+import per13 from "../assets/images/perfumes/per13.jpg";
 
 export const featuredProducts = [
   {
@@ -324,28 +339,6 @@ export const allProducts = [
 
   {
     id: 16,
-    name: "Ocean Driftwood",
-    price: "20,000",
-    category: "Diffuser",
-    image: product19,
-    rating: 4.6,
-    size: "120ml",
-    scent_type:
-      "Kiwi & Peach, Saffron, Arabian night, Coffee Arabica, Coconut Blast (Caramel & Coconut)",
-    description:
-      "Coastal freshness meets warm driftwood. Ideal for creating a serene, stress-free environment.",
-    details: [
-      "Lasts 3-4 months",
-      "Natural rattan reeds included",
-      "Modern apothecary-style bottle",
-      "Non-toxic formula",
-      "Pet-friendly ingredients",
-      "Calming, meditation-friendly",
-    ],
-  },
-
-  {
-    id: 17,
     name: "Moonstruck",
     price: "40,000",
     category: "Gift Set",
@@ -366,7 +359,7 @@ export const allProducts = [
     ],
   },
   {
-    id: 18,
+    id: 17,
     name: "Radiant Reverie",
     price: "8,000",
     category: "Diffuser",
@@ -387,7 +380,7 @@ export const allProducts = [
     ],
   },
   {
-    id: 19,
+    id: 18,
     name: "Enchantia",
     price: "53,000",
     category: "Gift Set",
@@ -405,6 +398,269 @@ export const allProducts = [
       "Instant Refresh, Naturally inspired",
       "Pet-friendly ingredients",
       "Calming, mood-enhancing",
+    ],
+  },
+
+  // Perfumes
+
+  {
+    id: 19,
+    name: "Kaly perfume",
+    price: "12,500",
+    category: "Perfume",
+    image: per1,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Vanilla, Juicy Apple, Silent wave, Pistachio gelato",
+    description:
+      "A playful yet sophisticated fragrance that blends sweet and fresh notes for a captivating everyday scent.",
+    details: [
+      "Long-lasting freshness",
+      "Perfect for daytime wear",
+      "Youthful and energetic vibe",
+      "Unisex appeal",
+      "Great for office or casual outings",
+      "Compliment magnet",
+    ],
+  },
+  {
+    id: 20,
+    name: "Saheb",
+    price: "28,000",
+    category: "Perfume",
+    image: per2,
+    rating: 4.7,
+    size: "100ml EDP",
+    scent_type: "Amber, Oud, Saffron, Vanilla",
+    description:
+      "A regal oriental fragrance that exudes power and sophistication with its rich, warm accords.",
+    details: [
+      "Premium Arabian perfume oil blend",
+      "Ideal for evening wear",
+      "Strong sillage and longevity",
+      "Mature and luxurious character",
+      "Perfect for special occasions",
+      "Signature scent worthy",
+    ],
+  },
+  {
+    id: 21,
+    name: "Sara",
+    price: "35,000",
+    category: "Perfume",
+    image: per3,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Tuberose, Bergamot, Jasmine, Berries",
+    description:
+      "A feminine floral bouquet with fruity freshness that creates an aura of effortless elegance.",
+    details: [
+      "Romantic and delicate",
+      "Perfect for date nights",
+      "Moderate projection",
+      "Spring/summer favorite",
+      "Flowers and fruits harmony",
+      "Youthful sophistication",
+    ],
+  },
+  {
+    id: 22,
+    name: "Oud al layl",
+    price: "20,000",
+    category: "Perfume",
+    image: per4,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Oud, Vanilla, Amber, Saffron",
+    description:
+      "A mystical night-time fragrance that blends precious oud with sweet warmth for an unforgettable presence.",
+    details: [
+      "Deep and sensual",
+      "Traditional Arabian character",
+      "Excellent longevity",
+      "Perfect for winter evenings",
+      "Mysterious allure",
+      "Aged oud notes",
+    ],
+  },
+  {
+    id: 23,
+    name: "Teriaq",
+    price: "65,000",
+    category: "Perfume",
+    image: per5,
+    rating: 4.9,
+    size: "100ml EDP",
+    scent_type: "Caramel, Tonka Bean, Orchid, Musk",
+    description:
+      "Lattafa Teriaq luxurious perfume for women, a sweet, enchanting scent that leaves a trail of elegance.",
+    details: [
+      "Gourmand fragrance profile",
+      "Luxurious golden bottle",
+      "All-day wearability",
+      "Warm and comforting",
+      "Perfect for romantic occasions",
+      "Premium Middle Eastern blend",
+    ],
+  },
+  {
+    id: 24,
+    name: "Teriaq Intense",
+    price: "65,000",
+    category: "Perfume",
+    image: per6,
+    rating: 4.9,
+    size: "100ml EDP",
+    scent_type: "Leather, Tobacco, Cedarwood, Vanilla",
+    description:
+      "Lattafa Teriaq luxurious perfume for men, a bold and charismatic fragrance with intense masculine energy.",
+    details: [
+      "Powerful and confident",
+      "Ideal for night outs",
+      "Strong projection",
+      "Mature masculine character",
+      "Great for winter seasons",
+      "Luxury in every drop",
+    ],
+  },
+  {
+    id: 25,
+    name: "Ameerat Al Arab",
+    price: "27,000",
+    category: "Perfume",
+    image: per7,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Cinnamon, Frankincense, Patchouli, Rose",
+    description:
+      "The perfect combination of spices, resins, and exotic woods creates a royal Arabian princess experience.",
+    details: [
+      "Regal and opulent",
+      "Traditional Middle Eastern blend",
+      "Warm spicy character",
+      "Perfect for special events",
+      "Unique and memorable",
+      "Cultural fragrance journey",
+    ],
+  },
+  {
+    id: 26,
+    name: "Eclaire",
+    price: "65,000",
+    category: "Perfume",
+    image: per8,
+    rating: 4.9,
+    size: "100ml EDP",
+    scent_type: "Caramel, Milk, Sugar, Vanilla",
+    description:
+      "A delicious gourmand fragrance that opens with top notes of caramel, milk and sugar, creating an irresistible sweet temptation.",
+    details: [
+      "Dessert-like fragrance",
+      "Comforting and sweet",
+      "Great for younger audiences",
+      "Unique scent profile",
+      "Perfect for cold weather",
+      "Mood-boosting aroma",
+    ],
+  },
+  {
+    id: 27,
+    name: "Sublime Badee Al Oud",
+    price: "35,000",
+    category: "Perfume",
+    image: per9,
+    rating: 4.7,
+    size: "100ml EDP",
+    scent_type: "Red Berries, Oud, Vanilla, Amber",
+    description:
+      "A must-have juicy fragrance for women who want to smell irresistibly attractive - a scent that makes your presence welcoming and admirable.",
+    details: [
+      "Seductive and feminine",
+      "Great sillage",
+      "Day-to-night versatility",
+      "Modern Arabian fusion",
+      "Attention-grabbing",
+      "Confidence-boosting",
+    ],
+  },
+  {
+    id: 28,
+    name: "Badee Al Oud Amethyst",
+    price: "35,000",
+    category: "Perfume",
+    image: per10,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Oud, Saffron, Rose, Musk",
+    description:
+      "A premium special edition fragrance that's too good for daily use - reserve this classic for your most important events and occasions.",
+    details: [
+      "Luxury in every spray",
+      "Exceptional longevity",
+      "Royal treatment experience",
+      "Perfect for gifting",
+      "Elegant purple bottle",
+      "Mature and sophisticated",
+    ],
+  },
+  {
+    id: 29,
+    name: "Yaqeen",
+    price: "23,000",
+    category: "Perfume",
+    image: per11,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Fruity Vanilla, Jasmine, White Musk, Sandalwood",
+    description:
+      "A faith-inspired fragrance that blends purity and sweetness, creating a clean yet sensual aura that lasts all day.",
+    details: [
+      "Spiritual connection",
+      "Fresh yet warm",
+      "Office-friendly",
+      "Daily wear potential",
+      "Balanced composition",
+      "Uplifting character",
+    ],
+  },
+  {
+    id: 30,
+    name: "Ameer Al Arab",
+    price: "27,500",
+    category: "Perfume",
+    image: per12,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Oud, Amber, Leather, Tobacco",
+    description:
+      "(Prince of Arabia) Embodies luxury, exclusivity, and wealth with a powerful aura that commands attention and respect.",
+    details: [
+      "Ultra masculine",
+      "Strong presence",
+      "Business meeting perfect",
+      "Mature elegance",
+      "Middle Eastern luxury",
+      "Signature scent potential",
+    ],
+  },
+  {
+    id: 31,
+    name: "So Candid",
+    price: "25,000",
+    category: "Perfume",
+    image: per13,
+    rating: 4.6,
+    size: "100ml EDP",
+    scent_type: "Peony, Freesia, Cashmere Wood, White Amber",
+    description:
+      "Your go-to perfume when you want to make an unforgettable impression - a heavenly scent fit for royalty that will have everyone asking what you're wearing.",
+    details: [
+      "Compliment guaranteed",
+      "Elegant and refined",
+      "Perfect for any occasion",
+      "Fresh floral character",
+      "Youthful sophistication",
+      "Bottle worthy of display",
     ],
   },
 ];
