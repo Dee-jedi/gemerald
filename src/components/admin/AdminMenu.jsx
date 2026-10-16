@@ -1,9 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import ConfirmDialog from "../ui/ConfirmDialog";
+
+const GAP = 8; // px between the button and the menu
+const MENU_HEIGHT = 96; // approx. height of the two-item menu, for flipping
 
 // Edit/delete menu for a product. Renders nothing for non-admins.
 const AdminMenu = ({ product, onDeleted, className = "", variant = "overlay" }) => {
@@ -13,21 +17,53 @@ const AdminMenu = ({ product, onDeleted, className = "", variant = "overlay" }) 
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState(null);
+  const [position, setPosition] = useState(null);
   const menuRef = useRef(null);
+  const panelRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  // The menu is portalled to <body> with fixed positioning so the card's
+  // rounded overflow can't clip it and neighbouring cards can't cover it.
+  // Opens below the button, or above it when there isn't room.
+  const updatePosition = useCallback(() => {
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const right = window.innerWidth - rect.right;
+    const fitsBelow = rect.bottom + GAP + MENU_HEIGHT <= window.innerHeight;
+    setPosition(
+      fitsBelow
+        ? { top: rect.bottom + GAP, right, origin: "top right" }
+        : { bottom: window.innerHeight - rect.top + GAP, right, origin: "bottom right" }
+    );
+  }, []);
+
+  useLayoutEffect(() => {
+    if (open) updatePosition();
+  }, [open, updatePosition]);
 
   useEffect(() => {
     if (!open) return;
     const onPointerDown = (e) => {
-      if (!menuRef.current?.contains(e.target)) setOpen(false);
+      if (
+        !menuRef.current?.contains(e.target) &&
+        !panelRef.current?.contains(e.target)
+      ) {
+        setOpen(false);
+      }
     };
     const onKey = (e) => e.key === "Escape" && setOpen(false);
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKey);
+    // Keep the menu attached to its button while the page scrolls.
+    window.addEventListener("scroll", updatePosition, { passive: true, capture: true });
+    window.addEventListener("resize", updatePosition);
     return () => {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("scroll", updatePosition, { capture: true });
+      window.removeEventListener("resize", updatePosition);
     };
-  }, [open]);
+  }, [open, updatePosition]);
 
   if (!isAdmin) return null;
 
@@ -55,6 +91,7 @@ const AdminMenu = ({ product, onDeleted, className = "", variant = "overlay" }) 
   return (
     <div ref={menuRef} className={`relative ${className}`}>
       <button
+        ref={buttonRef}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -68,16 +105,23 @@ const AdminMenu = ({ product, onDeleted, className = "", variant = "overlay" }) 
         <MoreVertical className="h-[18px] w-[18px]" />
       </button>
 
+      {createPortal(
       <AnimatePresence>
-        {open && (
+        {open && position && (
           <motion.div
+            ref={panelRef}
             role="menu"
-            className="absolute right-0 top-11 z-20 w-40 overflow-hidden rounded-xl border border-white/10 bg-[#1a1a1a]/95 backdrop-blur-md py-1 shadow-xl shadow-black/50"
-            initial={{ opacity: 0, scale: 0.95, y: -4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -4 }}
+            className="fixed z-[60] w-40 overflow-hidden rounded-xl border border-white/10 bg-[#1a1a1a]/95 backdrop-blur-md py-1 shadow-xl shadow-black/50"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.12 }}
-            style={{ transformOrigin: "top right" }}
+            style={{
+              top: position.top,
+              bottom: position.bottom,
+              right: position.right,
+              transformOrigin: position.origin,
+            }}
           >
             <button
               role="menuitem"
@@ -101,7 +145,9 @@ const AdminMenu = ({ product, onDeleted, className = "", variant = "overlay" }) 
             </button>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+        document.body
+      )}
 
       <ConfirmDialog
         open={confirming}
