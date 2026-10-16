@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { ProductCard } from "./ProductCard";
-import { featuredProducts } from "../../data/products";
+import { getFeaturedProducts } from "../../services/products";
+import LoadError from "../ui/LoadError";
+import SectionHeading from "../landing/SectionHeading";
+import { MasonryColumns } from "./MasonryGrid";
 import { ScrollAnimatedItem } from "../../utils/pageAnimations";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -11,14 +14,39 @@ export const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setProducts(featuredProducts);
-      setIsLoading(false);
-    }, 1000);
+  const [loadError, setLoadError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
-    return () => clearTimeout(timer);
-  }, []);
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    setLoadError(false);
+    getFeaturedProducts()
+      .then((items) => !cancelled && setProducts(items))
+      .catch((err) => {
+        console.error("Failed to load featured products", err);
+        if (!cancelled) setLoadError(true);
+      })
+      .finally(() => !cancelled && setIsLoading(false));
+
+    return () => {
+      cancelled = true;
+    };
+  }, [attempt]);
+
+  if (loadError) {
+    return (
+      <section className="py-12 bg-[var(--color-bg)]">
+        <LoadError
+          message="We couldn't load our featured fragrances."
+          onRetry={() => setAttempt((n) => n + 1)}
+        />
+      </section>
+    );
+  }
+
+  // Nothing featured yet: skip the section rather than show an empty heading.
+  if (!isLoading && products.length === 0) return null;
 
   if (isLoading) {
     return (
@@ -34,30 +62,25 @@ export const FeaturedProducts = () => {
     );
   }
 
+  const handleDeleted = (deleted) =>
+    setProducts((items) => items.filter((p) => p.id !== deleted.id));
+
   return (
     <section className="md:py-16 pt-12 pb-8 bg-[var(--color-bg)]">
       <div className="max-w-7xl mx-auto px-6">
-        <ScrollAnimatedItem amount={0.1}>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-serif font-medium text-nowrap text-[var(--color-text)]">
-              Featured Fragrances
-            </h2>
-          </div>
-        </ScrollAnimatedItem>
+        <SectionHeading
+          eyebrow="Our favourites"
+          title="Featured fragrances"
+          className="mb-10 md:mb-14"
+        />
 
-        <div
-          className={
-            isMobile
-              ? "columns-2 gap-4"
-              : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
-          }
-        >
-          {products.map((product, index) => (
-            <div
-              key={product.id}
-              className={isMobile ? "mb-4 break-inside-avoid" : ""}
-            >
+        {isMobile ? (
+          <MasonryColumns products={products} onDeleted={handleDeleted} />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {products.map((product, index) => (
               <ScrollAnimatedItem
+                key={product.id}
                 amount={0.1}
                 variants={{
                   offscreen: { y: 40, opacity: 0 },
@@ -68,11 +91,15 @@ export const FeaturedProducts = () => {
                   },
                 }}
               >
-                <ProductCard product={product} fixedHeight={!isMobile} />
+                <ProductCard
+                  product={product}
+                  fixedHeight
+                  onDeleted={handleDeleted}
+                />
               </ScrollAnimatedItem>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className="flex justify-end mt-4 px-4 md:px-6">
           <Link
@@ -103,10 +130,9 @@ const ProductSkeleton = ({ isMobile = false }) => (
       } bg-[var(--color-border)] rounded-t-xl`}
     ></div>
     {!isMobile && (
-      <div className="p-3 space-y-1.5">
+      <div className="px-4 py-3.5 space-y-2">
         <div className="h-4 bg-[var(--color-border)] rounded w-3/4"></div>
-        <div className="h-3 bg-[var(--color-border)] rounded w-1/2"></div>
-        <div className="h-8 bg-[var(--color-border)] rounded mt-2"></div>
+        <div className="h-3 bg-[var(--color-border)] rounded w-1/3"></div>
       </div>
     )}
   </div>

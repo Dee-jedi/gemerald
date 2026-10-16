@@ -1,196 +1,178 @@
-import { useRef } from "react";
-import Button from "../ui/CustomButton";
-import productImage from "../../assets/images/product_9.jpg";
-import { useNavigate } from "react-router-dom";
-import { AnimatedPage, ScrollAnimatedItem } from "../../utils/pageAnimations";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import heroImage from "../../assets/images/product_9.jpg";
 
-export const LandingHero = ({ onExplore }) => {
-  const heroRef = useRef(null);
-  const navigate = useNavigate();
+const CATEGORIES = [
+  { label: "Candles", value: "candle" },
+  { label: "Diffusers", value: "diffuser" },
+  { label: "Gift Sets", value: "gift set" },
+  { label: "Perfumes", value: "perfume" },
+];
 
-  const handleExploreClick = (e) => {
-    e.preventDefault();
+const fadeUp = (delay) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
+});
 
-    // Scroll effect if onExplore is provided
-    if (onExplore && heroRef.current) {
-      window.scrollTo({
-        top: heroRef.current.offsetHeight,
-        behavior: "smooth",
-      });
-      setTimeout(() => onExplore(), 1000);
-    }
+export const LandingHero = () => {
+  const sectionRef = useRef(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
-    // Always navigate to products
-    navigate("/products");
+  // Fade the scroll cue out once the visitor starts scrolling.
+  useEffect(() => {
+    const onScroll = () => setHasScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollPastHero = () => {
+    const bottom = sectionRef.current?.getBoundingClientRect().bottom ?? 0;
+    window.scrollTo({ top: window.scrollY + bottom, behavior: "smooth" });
   };
 
   return (
-    <AnimatedPage
-      ref={heroRef}
-      className="min-h-screen text-[var(--color-text)] relative overflow-hidden"
-      style={{
-        background: `
-          radial-gradient(
-            ellipse at top,
-            var(--tw-gradient-from),
-            var(--tw-gradient-via),
-            var(--tw-gradient-to)
-          ) fixed
-        `,
-        backgroundSize: "100% 100%",
-        "--tw-gradient-from": "#0f0f0f",
-        "--tw-gradient-via": "#14100e",
-        "--tw-gradient-to": "#1a1411",
-      }}
+    // On mobile the hero is exactly one screen and slides up under the
+    // transparent header (4.5rem). The photo is a soft, darkened backdrop and
+    // the copy sits in the vertical centre of the screen on top of it.
+    <section
+      ref={sectionRef}
+      className="relative -mt-[4.5rem] flex h-[100svh] min-h-[36rem] flex-col justify-center overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)] md:mt-0 md:block md:h-auto md:min-h-0"
     >
-      {/* Stable decorative elements */}
-      <div className="absolute inset-0 overflow-hidden opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[var(--color-soft-amber)] mix-blend-overlay filter blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-[var(--color-wood)] mix-blend-overlay filter blur-3xl" />
+      {/* Mobile: full-bleed blurred photo behind the copy */}
+      <div className="absolute inset-0 md:hidden" aria-hidden="true">
+        <motion.img
+          src={heroImage}
+          alt=""
+          fetchPriority="high"
+          initial={{ scale: 1.15 }}
+          animate={{ scale: 1.05 }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          // Slight blur turns the photo into atmosphere; the scale hides the
+          // soft edges blur leaves at the borders.
+          className="absolute inset-0 h-full w-full object-cover object-[50%_70%] blur-[2px]"
+        />
+        <div className="absolute inset-0 bg-black/35" />
+        {/* Fade into the page at the bottom; darker at the top for the header */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent via-30% to-[var(--color-bg)]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-12 md:py-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
-          {/* Text Content */}
-          <div className="space-y-3 md:space-y-8">
-            <ScrollAnimatedItem
-              amount={0.1}
-              variants={{
-                offscreen: { y: 40, opacity: 0 },
-                onscreen: {
-                  y: 0,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 15,
-                    delay: 0.1,
-                  },
-                },
-              }}
-            >
-              <div className="uppercase tracking-[0.2em] text-[var(--color-wood)] font-script">
-                <p>Gemerald Essence</p>
-              </div>
-            </ScrollAnimatedItem>
-
-            <ScrollAnimatedItem
-              amount={0.1}
-              variants={{
-                offscreen: { y: 60, opacity: 0 },
-                onscreen: {
-                  y: 0,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 90,
-                    damping: 15,
-                    delay: 0.2,
-                  },
-                },
-              }}
-            >
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light leading-tight">
-                <span className="block font-italic text-[var(--color-text)]">
-                  The Art of
-                </span>
-                <span className="block font-serif font-medium md:mt-2">
-                  Scented Luxury
-                </span>
-              </h1>
-            </ScrollAnimatedItem>
-
-            <ScrollAnimatedItem
-              amount={0.2}
-              variants={{
-                offscreen: { y: 40, opacity: 0 },
-                onscreen: {
-                  y: 0,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 80,
-                    damping: 15,
-                    delay: 0.3,
-                  },
-                },
-              }}
-            >
-              <p className="text-lg text-gray-300 max-w-lg leading-relaxed">
-                Immerse yourself in the exquisite world of Gemerald, where each
-                fragrance tells a story of craftsmanship and timeless elegance.
-                Our perfumes and candles are meticulously crafted to transform
-                your everyday into an extraordinary sensory experience.
-              </p>
-            </ScrollAnimatedItem>
-
-            <ScrollAnimatedItem
-              amount={0.2}
-              variants={{
-                offscreen: { y: 50, opacity: 0 },
-                onscreen: {
-                  y: 0,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 70,
-                    damping: 15,
-                    delay: 0.4,
-                  },
-                },
-              }}
-            >
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                {/* Use inline-block to maintain button width while fixing navigation */}
-                <div className="inline-block">
-                  <Button
-                    size="lg"
-                    className="px-6"
-                    onClick={handleExploreClick}
-                  >
-                    <span className="md:py-1 py-[1px]">
-                      Discover Collections
-                    </span>
-                  </Button>
-                </div>
-              </div>
-            </ScrollAnimatedItem>
-          </div>
-
-          {/* Product Image */}
-          <ScrollAnimatedItem
-            amount={0.15}
-            variants={{
-              offscreen: { y: 100, opacity: 0, scale: 0.96 },
-              onscreen: {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                transition: {
-                  type: "spring",
-                  stiffness: 60,
-                  damping: 15,
-                  delay: 0.5,
-                },
-              },
-            }}
+      <div className="relative mx-auto grid w-full max-w-7xl items-end gap-12 px-6 md:grid-cols-[1.1fr_1fr] md:items-center md:py-20 lg:py-24">
+        {/* Copy */}
+        {/* pt offsets the header so the copy centres in the visible area */}
+        <div className="flex flex-col items-center pt-[4.5rem] text-center md:items-start md:pt-0 md:text-left">
+          <motion.p
+            {...fadeUp(0.1)}
+            className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--color-wood)]"
           >
-            <div className="relative">
-              <div className="relative before:absolute before:inset-0 before:bg-[var(--color-wood)] before:mix-blend-overlay before:opacity-5 before:rounded-xl">
-                <img
-                  src={productImage}
-                  alt="Gemerald Signature Fragrance"
-                  className="w-full max-w-[280px] md:max-w-md h-auto max-h-[50vh] md:max-h-none mx-auto object-cover md:object-contain rounded-xl shadow-2xl hover:shadow-[0_20px_50px_rgba(183,_93,_47,_0.3)] transition-all duration-500"
-                  loading="eager"
-                  style={{ aspectRatio: "3/4" }}
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 md:w-24 md:h-24 w-16 h-16 border-2 border-[var(--color-soft-amber)] opacity-30"></div>
-              <div className="absolute -top-4 -left-4 w-14 h-14 md:w-20 md:h-20 border border-[var(--color-wood)] opacity-30"></div>
+            Candles · Diffusers · Perfumes
+          </motion.p>
+
+          <motion.h1
+            {...fadeUp(0.2)}
+            className="mt-3 font-serif text-[2.5rem] leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
+          >
+            Scented luxury,
+            <br />
+            <span className="text-[var(--color-wood)]">made to linger.</span>
+          </motion.h1>
+
+          <motion.p
+            {...fadeUp(0.3)}
+            className="mx-auto mt-4 max-w-xs text-[15px] leading-relaxed sm:max-w-md md:mx-0 text-white/70 md:text-lg"
+          >
+            Handcrafted candles, diffusers and perfumes for every mood and every
+            room.
+          </motion.p>
+
+          <motion.div {...fadeUp(0.4)} className="mt-7">
+            <Link
+              to="/products"
+              className="group inline-flex items-center gap-3 rounded-full bg-[var(--color-wood)] py-3.5 pl-7 pr-5 text-sm font-semibold text-[#1a1411] shadow-lg shadow-black/40 transition-colors hover:bg-[#e8c9a0]"
+            >
+              Shop the collection
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1a1411]/10 transition-transform group-hover:translate-x-0.5">
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          </motion.div>
+
+          <motion.nav
+            {...fadeUp(0.5)}
+            aria-label="Shop by category"
+            className="-mx-6 mt-6 w-[calc(100%+3rem)] overflow-x-auto no-scrollbar px-6 md:mx-0 md:w-auto md:px-0"
+          >
+            {/* w-max + mx-auto centres the row, yet still scrolls from the
+                left edge when it's wider than the screen */}
+            <div className="mx-auto flex w-max gap-1.5 md:mx-0 md:flex-wrap md:gap-2">
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.value}
+                to={`/products?category=${encodeURIComponent(cat.value)}`}
+                className="shrink-0 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.03] px-3 py-2 text-xs md:px-4 font-medium text-white/80 transition-colors hover:border-[var(--color-wood)]/50 hover:text-[var(--color-wood)]"
+              >
+                {cat.label}
+              </Link>
+            ))}
             </div>
-          </ScrollAnimatedItem>
+          </motion.nav>
         </div>
+
+        {/* Desktop: photo panel */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="relative hidden md:block"
+        >
+          <div className="absolute -inset-10 rounded-full bg-[var(--color-soft-amber)]/10 blur-3xl" />
+          <div className="relative ml-auto aspect-[4/5] max-h-[78vh] overflow-hidden rounded-[2rem] border border-white/[0.06] shadow-2xl shadow-black/60">
+            <img
+              src={heroImage}
+              alt="Gemerald sculpted candle styled with fragrance"
+              fetchPriority="high"
+              className="h-full w-full object-cover object-[50%_60%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          </div>
+        </motion.div>
       </div>
-    </AnimatedPage>
+
+      <ScrollCue onClick={scrollPastHero} hidden={hasScrolled} />
+    </section>
+  );
+};
+
+// Mouse-outline scroll hint at the bottom of the mobile hero.
+const ScrollCue = ({ onClick, hidden }) => {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      aria-label="Scroll to see more"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: hidden ? 0 : 1, y: 0 }}
+      transition={{ duration: 0.6, delay: hidden ? 0 : 1.1 }}
+      className={`absolute bottom-[calc(1.75rem+env(safe-area-inset-bottom))] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 cursor-pointer md:hidden [-webkit-tap-highlight-color:transparent] ${
+        hidden ? "pointer-events-none" : ""
+      }`}
+    >
+      <span className="relative flex h-9 w-[22px] justify-center rounded-full border border-white/30">
+        <motion.span
+          className="mt-1.5 h-1.5 w-1 rounded-full bg-[var(--color-wood)]"
+          animate={reduceMotion ? undefined : { y: [0, 12, 12], opacity: [1, 0, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", times: [0, 0.7, 1] }}
+        />
+      </span>
+      {/* pl matches the tracking's trailing space so the word centres */}
+      <span className="pl-[0.3em] text-[10px] font-medium uppercase tracking-[0.3em] text-white/45">
+        Scroll
+      </span>
+    </motion.button>
   );
 };

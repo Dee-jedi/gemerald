@@ -1,3 +1,4 @@
+import SectionHeading from "./SectionHeading";
 import { useState, useEffect } from "react";
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -56,14 +57,11 @@ const Testimonials = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center sm:mb-6 ">
-          <span className="font-script text-3xl text-[var(--color-soft-amber)]">
-            Testimonials
-          </span>
-          <h2 className="font-serif text-3xl md:text-4xl mt-2 text-[var(--color-text)]">
-            Voices of Elegance
-          </h2>
-        </div>
+        <SectionHeading
+          eyebrow="Testimonials"
+          title="Loved by our customers"
+          className="sm:mb-6"
+        />
 
         <div className="relative h-[400px] md:h-[350px]">
           {/* Testimonial Cards */}

@@ -1,112 +1,80 @@
 // src/components/products/ProductCard.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../ui/CustomButton";
-import { Eye, Star } from "lucide-react";
+import AdminMenu from "../admin/AdminMenu";
+import { formatPrice } from "../../lib/utils";
 
-export const ProductCard = ({ product, fixedHeight = false }) => {
+// Height variations for mobile masonry (px), picked per product so they stay stable.
+const MOBILE_HEIGHTS = [280, 220, 240, 200, 260];
+
+export const getMobileCardHeight = (product) =>
+  MOBILE_HEIGHTS[product.id % MOBILE_HEIGHTS.length];
+
+export const ProductCard = ({ product, fixedHeight = false, onDeleted }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [cardHeight, setCardHeight] = useState("auto");
-
-  useEffect(() => {
-    if (!fixedHeight) {
-      // Height variations for mobile masonry
-      const heights = ["280px", "220px", "240px", "200px", "260px"];
-      setCardHeight(heights[Math.floor(Math.random() * heights.length)]);
-    }
-  }, [fixedHeight]);
+  const cardHeight = `${getMobileCardHeight(product)}px`;
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-3xl sm:rounded-2xl bg-[var(--color-card)]  transition-all duration-300 shadow-sm hover:shadow-md ${
-        fixedHeight ? "h-full flex flex-col" : ""
+      className={`group relative overflow-hidden rounded-3xl sm:rounded-2xl bg-[var(--color-card)] transition-all duration-300 shadow-sm hover:shadow-md ${
+        fixedHeight ? "h-full" : ""
       }`}
       style={!fixedHeight ? { height: cardHeight } : {}}
     >
-      {/* Image container - updated */}
-      <div
-        className={`relative ${
-          fixedHeight ? "aspect-square flex-shrink-0" : "h-full"
+      <Link
+        to={`/products/${product.id}`}
+        className={`block h-full rounded-[inherit] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wood)] ${
+          fixedHeight ? "flex flex-col" : ""
         }`}
       >
-        {!isImageLoaded && (
-          <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse rounded-t-xl" />
-        )}
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
-              isImageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            loading="lazy"
-            onLoad={() => setIsImageLoaded(true)}
-          />
+        {/* Image */}
+        <div
+          className={`relative ${
+            fixedHeight ? "aspect-square flex-shrink-0" : "h-full"
+          }`}
+        >
+          {!isImageLoaded && (
+            <div className="absolute inset-0 bg-[var(--color-border)] animate-pulse" />
+          )}
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              src={product.image}
+              alt={product.name}
+              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                isImageLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              loading="lazy"
+              onLoad={() => setIsImageLoaded(true)}
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Info section - different layout for mobile/desktop */}
-      {fixedHeight ? (
-        // Desktop layout - below image
-        <div className="p-4 space-y-2.5 bg-[var(--color-card)] flex-grow flex flex-col">
-          <div className="flex justify-between items-center gap-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-[15px] text-[var(--color-text)] line-clamp-1 leading-tight">
-                {product.name}
-              </h3>
-              <p className="text-sm font-semibold text-[var(--color-soft-amber)]">
-                #{product.price}
-              </p>
-            </div>
-            <div className="flex items-center gap-1 text-xs font-semibold text-[var(--color-wood)] whitespace-nowrap">
-              <Star className="w-3 h-3 text-yellow-500" />
-              {product.rating?.toFixed(1) ?? "4.0"}
-            </div>
+        {/* Info - below the image on desktop, overlaid on mobile */}
+        {fixedHeight ? (
+          <div className="px-4 py-3.5 bg-[var(--color-card)] flex-grow">
+            <h3 className="font-medium text-[15px] text-[var(--color-text)] line-clamp-1 leading-tight transition-colors group-hover:text-[var(--color-wood)]">
+              {product.name}
+            </h3>
+            <p className="mt-1 text-sm font-semibold text-[var(--color-soft-amber)]">
+              {formatPrice(product.price)}
+            </p>
           </div>
-          <div className="mt-auto pt-2">
-            <Link to={`/products/${product.id}`} className="block">
-              <Button
-                variant="outline"
-                fullWidth
-                className="gap-2 py-2.5 text-xs font-medium"
-              >
-                <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
-                View Details
-              </Button>
-            </Link>
+        ) : (
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pt-10">
+            <h3 className="font-medium text-sm text-white line-clamp-1 leading-tight">
+              {product.name}
+            </h3>
+            <p className="mt-0.5 text-xs font-semibold text-[var(--color-soft-amber)]">
+              {formatPrice(product.price)}
+            </p>
           </div>
-        </div>
-      ) : (
-        // Mobile layout - overlay on image
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3 pt-6">
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center gap-2">
-              <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-sm text-white line-clamp-1 leading-tight">
-                  {product.name}
-                </h3>
-                <p className="text-xs font-semibold text-[var(--color-soft-amber)]">
-                  #{product.price}
-                </p>
-              </div>
-              <div className="flex items-center gap-1 text-xs font-semibold text-white whitespace-nowrap">
-                <Star className="w-3 h-3 text-yellow-300" />
-                {product.rating?.toFixed(1) ?? "4.0"}
-              </div>
-            </div>
-            <Link to={`/products/${product.id}`} className="block pt-1">
-              <Button
-                variant="outline"
-                fullWidth
-                className="gap-2 py-[10px] text-xs font-medium bg-black whitespace-nowrap"
-              >
-                <Eye className="w-3.5 h-3.5 text-[var(--color-wood)]" />
-                View Details
-              </Button>
-            </Link>
-          </div>
-        </div>
-      )}
+        )}
+      </Link>
+
+      {/* Kept outside the link so opening the menu never navigates. */}
+      <div className="absolute top-3 right-3 z-10">
+        <AdminMenu product={product} onDeleted={onDeleted} />
+      </div>
     </div>
   );
 };
