@@ -32,6 +32,7 @@ const ContactPage = () => {
 
   return (
     <AnimatedPage className="bg-[var(--color-bg)] text-[var(--color-text)]">
+      <title>Contact | Gemerald</title>
       {/* Signature border */}
       <div className="h-px bg-gradient-to-r from-transparent via-[var(--color-soft-amber)] to-transparent opacity-10"></div>
 

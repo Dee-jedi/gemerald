@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { X, ShoppingCart, ArrowLeft } from "lucide-react";
 import { AnimatedPage, ScrollAnimatedItem } from "../utils/pageAnimations";
+import { formatPrice } from "../lib/utils";
+import { whatsappLink } from "../lib/site";
 
 const CartPage = () => {
   const {
@@ -15,28 +17,21 @@ const CartPage = () => {
   } = useCart();
 
   const handleWhatsAppCheckout = () => {
-    const phoneNumber = "2347081691700";
     const businessName = "Gemerald";
 
     const itemsText = cartItems
-      .map(
-        (item) =>
-          `${item.name} (${
-            item.quantity
-          } × ₦${item.price.toLocaleString()}) - Scent: ${
-            item.selectedScent || parseScentTypes(item.scent_type)[0]
-          }`
-      )
+      .map((item) => {
+        const scent =
+          item.selectedScent || parseScentTypes(item.scent_type)[0];
+        return `${item.name} (${item.quantity} × ${formatPrice(item.price)})${
+          scent ? ` - Scent: ${scent}` : ""
+        }`;
+      })
       .join("\n");
 
-    const message = `Hello ${businessName}! I'd like to purchase:\n${itemsText}\n\nTotal: ₦${subtotal.toLocaleString()}`;
-    const encodedMessage = encodeURIComponent(message);
+    const message = `Hello ${businessName}! I'd like to purchase:\n${itemsText}\n\nTotal: ${formatPrice(subtotal)}`;
 
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
   };
 
   const subtotal = cartItems.reduce(
@@ -44,14 +39,11 @@ const CartPage = () => {
     0
   );
 
-  const formattedSubtotal = subtotal.toLocaleString("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 2,
-  });
+  const formattedSubtotal = formatPrice(subtotal);
 
   return (
     <AnimatedPage className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
+      <title>Your Cart | Gemerald</title>
       <div className="container mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <Link
@@ -87,7 +79,7 @@ const CartPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item) => (
-                <ScrollAnimatedItem key={item.id} amount={0.1}>
+                <ScrollAnimatedItem key={item.lineId} amount={0.1}>
                   <div className="flex flex-col sm:flex-row gap-4 p-4 bg-[var(--color-glass)] backdrop-blur-sm rounded-lg border border-[var(--color-border)] hover:border-[var(--color-soft-amber)] transition-all duration-300">
                     <div className="w-full sm:w-24 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-[var(--color-bg)] flex items-center justify-center">
                       <img
@@ -104,11 +96,12 @@ const CartPage = () => {
                             {item.name}
                           </h3>
                           <p className="text-[var(--color-soft-amber)] mt-1">
-                            #{item.price.toLocaleString()}
+                            {formatPrice(item.price)}
                           </p>
                         </div>
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item.lineId)}
+                          aria-label={`Remove ${item.name}`}
                           className="text-[var(--color-text)]/50 hover:text-[var(--color-wood)] transition-colors p-1"
                         >
                           <X className="w-5 h-5" />
@@ -116,6 +109,7 @@ const CartPage = () => {
                       </div>
 
                       {/* Scent Selection */}
+                      {parseScentTypes(item.scent_type).length > 0 && (
                       <div className="mt-3">
                         <label className="block text-sm text-[var(--color-text)]/80 mb-2 cursor-pointer">
                           Scent Note:
@@ -125,7 +119,7 @@ const CartPage = () => {
                             item.selectedScent ||
                             parseScentTypes(item.scent_type)[0]
                           }
-                          onChange={(e) => updateScent(item.id, e.target.value)}
+                          onChange={(e) => updateScent(item.lineId, e.target.value)}
                           className="w-full bg-[var(--color-bg)] border border-[var(--color-border)] rounded py-1.5 px-2  text-sm text-[var(--color-text)] focus:border-[var(--color-wood)] focus:outline-none focus:ring-1 focus:ring-[var(--color-wood)]/30 bg-no-repeat bg-[length:16px_16px] bg-[right_0.5rem_center] appearance-none"
                           style={{
                             backgroundImage:
@@ -143,6 +137,7 @@ const CartPage = () => {
                           ))}
                         </select>
                       </div>
+                      )}
 
                       <div className="mt-auto pt-4">
                         <div className="flex items-center justify-between">
@@ -154,7 +149,7 @@ const CartPage = () => {
                               value={item.quantity}
                               onChange={(e) =>
                                 updateQuantity(
-                                  item.id,
+                                  item.lineId,
                                   parseInt(e.target.value)
                                 )
                               }
@@ -176,7 +171,7 @@ const CartPage = () => {
                             </select>
                           </div>
                           <span className="text-[var(--color-text)] font-medium">
-                            #{item.price * item.quantity}
+                            {formatPrice(item.price * item.quantity)}
                           </span>
                         </div>
                       </div>

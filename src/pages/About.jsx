@@ -13,6 +13,7 @@ const AboutPage = () => {
 
   return (
     <AnimatedPage className="bg-[var(--color-bg)] text-[var(--color-text)]">
+      <title>About | Gemerald</title>
       {/* Hero Section */}
       <section className="relative sm:pt-24 pt-10 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Signature border */}

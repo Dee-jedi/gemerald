@@ -1,75 +1,118 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { parsePrice } from "../lib/utils";
 
 const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedCart = localStorage.getItem("cart");
-      return savedCart ? JSON.parse(savedCart) : [];
-    }
-    return [];
-  });
+// Split a product's comma-separated scent list into options.
+export const parseScentTypes = (scentString) =>
+  (scentString || "")
+    .split(/\s*,\s*(?![^()]*\))/)
+    .map((s) => s.trim())
+    .filter(Boolean);
 
-  const [cartItemCount, setCartItemCount] = useState(0);
+// The same product in two scents is two separate cart lines.
+const lineIdFor = (productId, scent) => `${productId}::${scent ?? ""}`;
+
+const loadCart = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("cart") ?? "[]");
+    return Array.isArray(saved)
+      ? saved.map((item) => ({
+          ...item,
+          lineId: item.lineId ?? lineIdFor(item.id, item.selectedScent),
+        }))
+      : [];
+  } catch {
+    return [];
+  }
+};
+
+export const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState(loadCart);
 
   useEffect(() => {
-    const count = cartItems.reduce((total, item) => total + item.quantity, 0);
-    setCartItemCount(count);
-
-    if (typeof window !== "undefined") {
+    try {
       localStorage.setItem("cart", JSON.stringify(cartItems));
+    } catch {
+      // Storage can be unavailable (private mode); the cart still works in memory.
     }
   }, [cartItems]);
 
-  const addToCart = (product) => {
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const addToCart = (product, scent, quantity = 1) => {
+    const selectedScent = scent ?? parseScentTypes(product.scent_type)[0] ?? "";
+    const lineId = lineIdFor(product.id, selectedScent);
+
     setCartItems((prevItems) => {
-      const sanitizedProduct = {
-        ...product,
-        price:
-          typeof product.price === "string"
-            ? Number(product.price.replace(/,/g, ""))
-            : product.price,
-        selectedScent: parseScentTypes(product.scent_type)[0], // Add default scent
-      };
-
-      const existingItem = prevItems.find((item) => item.id === product.id);
-
-      if (existingItem) {
+      if (prevItems.some((item) => item.lineId === lineId)) {
         return prevItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+          item.lineId === lineId
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      return [...prevItems, { ...sanitizedProduct, quantity: 1 }];
+      return [
+        ...prevItems,
+        {
+          id: product.id,
+          name: product.name,
+          image: product.image,
+          category: product.category,
+          scent_type: product.scent_type,
+          price: parsePrice(product.price),
+          selectedScent,
+          lineId,
+          quantity,
+        },
+      ];
     });
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = (lineId) => {
     setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== productId)
+      prevItems.filter((item) => item.lineId !== lineId)
     );
   };
 
-  const updateQuantity = (productId, newQuantity) => {
+  const updateQuantity = (lineId, newQuantity) => {
     if (newQuantity < 1) {
-      removeFromCart(productId);
+      removeFromCart(lineId);
       return;
     }
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
+        item.lineId === lineId ? { ...item, quantity: newQuantity } : item
       )
     );
   };
 
-  const updateScent = (productId, newScent) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === productId ? { ...item, selectedScent: newScent } : item
-      )
-    );
+  const updateScent = (lineId, newScent) => {
+    setCartItems((prevItems) => {
+      const line = prevItems.find((item) => item.lineId === lineId);
+      if (!line) return prevItems;
+      const newLineId = lineIdFor(line.id, newScent);
+      const existing = prevItems.find((item) => item.lineId === newLineId);
+
+      // Switching to a scent that's already in the cart merges the two lines.
+      if (existing && existing !== line) {
+        return prevItems
+          .filter((item) => item.lineId !== lineId)
+          .map((item) =>
+            item.lineId === newLineId
+              ? { ...item, quantity: item.quantity + line.quantity }
+              : item
+          );
+      }
+      return prevItems.map((item) =>
+        item.lineId === lineId
+          ? { ...item, selectedScent: newScent, lineId: newLineId }
+          : item
+      );
+    });
   };
 
   const clearCart = () => {
@@ -80,11 +123,6 @@ export const CartProvider = ({ children }) => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-
-  // Helper function to parse scent types
-  const parseScentTypes = (scentString) => {
-    return scentString.split(/\s*,\s*/);
-  };
 
   return (
     <CartContext.Provider
