@@ -17,13 +17,19 @@ const ease = [0.22, 1, 0.36, 1];
 
 // The menu reveals as a circle growing from the menu button (2.25rem from the
 // top-right corner, matching the header's px-4 + 40px button).
+// A circle's % radius is relative to the viewport diagonal / √2, so 142% (just
+// over √2) is the smallest circle that always covers the screen from the
+// button. Anything bigger means the first part of closing changes nothing
+// visible, which reads as a pause.
 const CLIP_CLOSED = "circle(0% at calc(100% - 2.25rem) 2.25rem)";
-const CLIP_OPEN = "circle(150% at calc(100% - 2.25rem) 2.25rem)";
+const CLIP_OPEN = "circle(142% at calc(100% - 2.25rem) 2.25rem)";
 
+// Items fade up on open only. They deliberately have no exit animation: the
+// shrinking circle hides them, and fading them first made closing look like
+// two separate steps.
 const item = (i) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease, delay: 0.08 + i * 0.06 } },
-  exit: { opacity: 0, y: 8, transition: { duration: 0.15 } },
 });
 
 // Full-screen mobile menu. It sits below the header (z-40 vs z-50) so the
